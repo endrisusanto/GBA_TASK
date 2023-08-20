@@ -42,17 +42,19 @@ body {
 
 
 input.largerCheckbox {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     }
     table {
+        border:  1px solid #ddd;
 			width: 100%;
+            border-radius:60px;
 		}
 		th {
 			background-color: #ddd;
             border-radius:20px;
-            font-size:15px;
-            color:#7e7e7e;	
+            font-size:20px;
+            color:#000;	
             text-align:center;
 		}
 		td {
@@ -62,21 +64,18 @@ input.largerCheckbox {
 			padding-left: 4px;
 			padding-right: 4px;		
             text-align:center;
-            color:#fff;
-            font-size:25px;
-            
+            color:#000;
+            font-size:15px;
         }
             p {
             margin: 0 0 0px;}
             a {
-            padding-top:0px;
+            padding-top:20px;
             padding-right:10px;
             padding-left:5px;
             border-radius: 10px;
             margin:auto;
-            background-color: #767676;
-            font-weight:normal;
-            box-shadow: 5px 10px #ddd;
+            background-color: #FF6969;
 		    }
             
 
@@ -91,15 +90,10 @@ input.largerCheckbox {
     $pic_level = $_SESSION['level'];
     $pic='member';
     $result = $con->query($query);
-  
     if($result->num_rows> 0){
       $options= mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 	while($data = mysqli_fetch_array($query_mysql)){
-    $progress =$data['progress'];
-    $progress1 = explode(",", $progress);
-    $type =$data['type'];
-    $type1 = explode(",", $type);
 	?>
         <section class="container-fluid mb-10">
             <!-- justify-content-center untuk mengatur posisi form agar berada di tengah-tengah -->
@@ -190,15 +184,15 @@ input.largerCheckbox {
                     </div>       
                     <div class="col-sm-2">
                         <label for="name">ONTIME SUBMITED</label>
-                        <input readonly onkeydown="return false" type="text" class="form-control" id="ontime_submission" name="ontime_submission" value="<?php echo $data['ontime_submission'] ?>">
+                        <input readonly onkeydown="return false" type="text" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>">
                     </div>  
                     <div class="col-sm-2">
                         <label for="name">APPROVED DATE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="approved_date" name="approved_date" value="<?php echo $data['approved_date'] ?>">
+                        <input onkeydown="return false" type="date" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>">
                     </div>  
                     <div class="col-sm-2">
                         <label for="name">ONTIME APPROVED</label>
-                        <input readonly onkeydown="return false" type="text" class="form-control" id="ontime_approved" name="ontime_approved" value="<?php echo $data['ontime_approved'] ?>">
+                        <input readonly onkeydown="return false" type="text" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>">
                     </div>              
 					</div>
                     
@@ -207,108 +201,44 @@ input.largerCheckbox {
     <th colspan="10">GBA TEST PROGRESS</th>
   </tr>
   <tr>
-                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
-                                {
-                                echo "hidden";
-                                }?>><a  id="ctsbox">
-                            <input type="checkbox" onChange="myFunction(ctsbox, this)" class="largerCheckbox" id="cts" name="progress[]" value="cts"
-                            <?php
-                                if (in_array('cts',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
-                            
+                        <td ><a  id="cts">
+                            <input type="checkbox" onChange="myFunction(cts, this)" class="largerCheckbox" />
                             <label for="cts">CTS</label>
                         </td></a>
-                        <td ><a  id="gtsbox">
-                            <input type="checkbox" onChange="myFunction(gtsbox, this)" class="largerCheckbox" id="gts" name="progress[]" value="gts" 
-                            <?php
-                                if (in_array('gts',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a  id="gts">
+                            <input type="checkbox" onChange="myFunction(gts, this)" class="largerCheckbox"/>
                             <label for="gts">GTS</label>
                         </td></a>
-                        <td ><a id="ctsvbox">
-                            <input type="checkbox" onChange="myFunction(ctsvbox, this)"  class="largerCheckbox"id="ctsv" name="progress[]" value="ctsv"
-                            <?php
-                                if (in_array('ctsv',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="ctsv">
+                            <input type="checkbox" onChange="myFunction(ctsv, this)"  class="largerCheckbox"/>
                             <label for="ctsv">CTS V</label>
                         </td></a>
-                        <td ><a id="gtsvbox" >
-                            <input type="checkbox" onChange="myFunction(gtsvbox, this)" class="largerCheckbox"id="gtsv" name="progress[]" value="gtsv"
-                            <?php
-                                if (in_array('gtsv',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="gtsv" >
+                            <input type="checkbox" onChange="myFunction(gtsv, this)" class="largerCheckbox"/>
                             <label for="gtsv">GTS V</label>
                         </td></a>
-                        <td ><a id="bvtbox">
-                            <input type="checkbox" onChange="myFunction(bvtbox, this)"  class="largerCheckbox"id="bvt" name="progress[]" value="bvt"
-                            <?php
-                                if (in_array('bvt',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="bvt">
+                            <input type="checkbox" onChange="myFunction(bvt, this)"  class="largerCheckbox"/>
                             <label for="bvt">BVT</label>
                         </td></a>
-                        <td ><a id="getpropbox">
-                            <input type="checkbox" onChange="myFunction(getpropbox, this)" class="largerCheckbox"id="getprop" name="progress[]" value="getprop"
-                            <?php
-                                if (in_array('getprop',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="getprop">
+                            <input type="checkbox" onChange="myFunction(getprop, this)" class="largerCheckbox"/>
                             <label for="getprop">GETPROP</label>
                         </td></a>
-                        <td ><a id="sdtbox" >
-                            <input type="checkbox" onChange="myFunction(sdtbox, this)"class="largerCheckbox"id="sdt" name="progress[]" value="sdt"
-                            <?php
-                                if (in_array('sdt',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="sdt" >
+                            <input type="checkbox" onChange="myFunction(sdt, this)"class="largerCheckbox"/>
                             <label for="sdt">SDT</label>
                         </td></a>
-                        <td ><a id="svtbox">
-                            <input type="checkbox" onChange="myFunction(svtbox, this)" class="largerCheckbox"id="svt" name="progress[]" value="svt"
-                            <?php
-                                if (in_array('svt',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="svt">
+                            <input type="checkbox" onChange="myFunction(svt, this)" class="largerCheckbox"/>
                             <label for="svt">SVT</label>
                         </td></a>
-                        <td ><a id="bootimagebox">
-                            <input type="checkbox" onChange="myFunction(bootimagebox, this)" class="largerCheckbox"id="bootimage" name="progress[]" value="bootimage"
-                            <?php
-                                if (in_array('bootimage',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="bootimage">
+                            <input type="checkbox" onChange="myFunction(bootimage, this)" class="largerCheckbox"/>
                             <label for="bootimage">BOOT IMAGE</label>
                         </td></a>
-                        <td ><a id="stsbox">
-                            <input type="checkbox" onChange="myFunction(stsbox, this)" class="largerCheckbox"id="sts" name="progress[]" value="sts"
-                            <?php
-                                if (in_array('sts',$progress1))
-                                {
-                                echo "checked";
-                                }
-                            ?>>
+                        <td ><a id="sts">
+                            <input type="checkbox" onChange="myFunction(sts, this)" class="largerCheckbox"/>
                             <label for="sts">STS</label>
                         </td></a>
                         </tr>
@@ -358,7 +288,7 @@ else{
     document.getElementById('hide2').style.display = 'block';
 }
 </script>
-<!-- <script>
+<script>
 function myFunction(x, _this) {
   if (_this.checked) {
     x.style.backgroundColor = '#A8DF8E';
@@ -366,7 +296,7 @@ function myFunction(x, _this) {
     x.style.backgroundColor = '#FF6969';
   }
 }
-</script> -->
+</script>
     <!-- Bootstrap requirement jQuery pada posisi pertama, kemudian Popper.js, dan  yang terakhit Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

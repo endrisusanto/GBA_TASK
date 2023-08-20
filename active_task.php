@@ -18,6 +18,7 @@ if( !isset($_SESSION['name']) ){
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/x-icon" href="file/pe.ico">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -52,7 +53,7 @@ if( !isset($_SESSION['name']) ){
      }
 body {
 			font-family: "Roboto Condensed", Helvetica, sans-serif;
-			background-color: #f7f7f7;
+			background-color: #fff;
 		}
 		.container { margin: 150px auto; max-width: 960px; }
 		a {
@@ -61,13 +62,10 @@ body {
 		}
 		table {
 			width: 100%;
-			border-collapse: collapse;
-			margin-top: 20px;
-			margin-bottom: 20px;
 		}
 		table, th, td {
 		   border: 1px solid #bbb;
-		   text-align: left;
+		   margin: 5px auto 10px auto;
 		}
 		tr:nth-child(even) {
 			background-color: #f2f2f2;
@@ -76,8 +74,11 @@ body {
 			background-color: #ddd;
 		}
 		th,td {
-			padding: 5px;
-		}
+			padding-top: 3px;
+			padding-bottom: 3px;
+			padding-left: 4px;
+			padding-right: 4px;		
+			font-size: 12px;		}
 		button {
 			cursor: pointer;
 		}
@@ -115,26 +116,54 @@ body {
 			display: block;
 			text-align: center;
 		}
+		img {
+			padding-right: 2px;
+			border-radius: 50%;
+		}
+		p {
+		margin: 0 0 0px;
+		}
+		.glow {
+		color: #fff;
+		animation: glow 1s ease-in-out infinite alternate;
+		}
+
+		@-webkit-keyframes glow {
+		from {
+		box-shadow: 
+		0 0 10px #ff8a80, 
+		0 0 5px #33b5e5;
+		}
+
+		to {
+		box-shadow: 
+		0 0 5px #ff8a80,
+		0 0 10px #33b5e5;
+		}
+		}
 </style>
 <body>
 <div class="container-fluid">
 	<table  class="tablemanager">
 		<thead>
 			<tr>
-				<th style="text-align:center;" class="disableSort">No.</th>
-				<th class="disableSort">ID Issue</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">No.</th>
+				<th class="disableSort">PIC</th>
 				<th class="disableSort">Week</th>
-				<th class="disableSort">Type</th>
-				<th class="disableSort">AP VERSION</th>
-				<th class="disableSort">CP VERSION</th>
-				<th class="disableSort">CSC VERSION</th>
-				<th class="disableSort">Cause</th>
-				<th class="disableSort">Sample Recieve</th>
-				<th class="disableSort">Sample Analyzed</th>
-				<th style="text-align:center;" class="disableSort">Report</th>	
-				<th class="disableSort">Status</th>
-				<th style="text-align:center;" class="disableSort">PIC</th>
+				<th style="text-align:center;" class="disableSort">Type Submission</th>
+				<th class="disableSort">AP Version</th>
+				<th class="disableSort">CP Version</th>
+				<th class="disableSort">CSC Version</th>
+				<th style="text-align:center;" class="disableSort">Progress</th>
+				<th style="text-align:center;" class="disableSort">Status</th>
+				<th style="text-align:center;" class="disableSort">Request Date</th>
+				<th style="text-align:center;" class="disableSort">Submission Date</th>	
+				<th style="text-align:center;" class="disableSort">Ontime Submission</th>
+				<th style="text-align:center;" class="disableSort">Deadline</th>	
+				<th class="disableSort disableFilterBy">GBA Letter</th>	
+				<th class="disableSort disableFilterBy">NOTE</th>	
 				<th style="text-align:center;" class="disableSort disableFilterBy">Action</th>	
+
 			</tr>
             
             </thead>	
@@ -144,15 +173,17 @@ body {
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 if ($_SESSION['level']=='super user'){
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'Finish%' ORDER BY `task`.`week` DESC ");
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'Finish%' ORDER BY `task`.`issue_id` DESC ");
 }
 else{
 	$pengguna = $_SESSION['name'];
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna' AND status NOT LIKE 'Finish%' ORDER BY `task`.`week` DESC ");	
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna' AND status NOT LIKE 'Finish%' ORDER BY `task`.`issue_id` DESC ");	
 }
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarna = $data['status'];
+	$kodewarnapic = $data['nama'];
+	$kodewarnatype = $data['type'];
 	$file = 'file/'.$data['report'];
 if($data['report'] > 1){
 	$filename='<span class="glyphicon glyphicon-eye-open"></span>';
@@ -160,38 +191,68 @@ if($data['report'] > 1){
 else{
     $filename='';
 }
-if(strpos($kodewarna,'Progress')!==false){
-	$warna='#fff200';
+if(strpos($kodewarna,'PROGRESS')!==false){
+	$warna='#F0B86E';
   }
-  elseif(strpos($kodewarna,'Issue Baru')!==false){
-	$warna='#ff6928';
+  elseif(strpos($kodewarna,'Task Baru !')!==false){
+	$warna='#F6635C';
   }
-  elseif(strpos($kodewarna,'Finish')!==false){
-	$warna='#7fb765';
+  elseif(strpos($kodewarna,'APPROVED')!==false){
+	$warna='#428bca';
+  }
+  elseif(strpos($kodewarna,'SUBMITED')!==false){
+	$warna='#3e8339';
   }
   else{
 	$warna='white';
   }	
-	
+  if(strpos($kodewarnapic,'Endri Susanto')!==false){
+	$warnapic='#7A86B6';
+  }
+  elseif(strpos($kodewarnapic,'Lutfi Bukhori')!==false){
+	$warnapic='#647E68';
+  }
+  elseif(strpos($kodewarnapic,'Fazlur Rahman')!==false){
+	$warnapic='#C996CC';
+  }
+  else{
+	$warnapic='#D27685';
+  }	
+  if(strpos($kodewarnatype,'SMR')!==false){
+	$warnatype='#ff6928';
+  }
+  elseif(strpos($kodewarnatype,'NORMAL EXCEPTION')!==false){
+	$warnatype='#7fb765';
+  }
+  elseif(strpos($kodewarnatype,'SIMPLE EXCEPTION')!==false){
+	$warnatype='#428bca';
+  }
+  else{
+	$warnatype='#ff5b5b';
+  }
 		echo "<tbody>";
 		echo "<tr>";
 		echo "<td style='text-align:center;'>".$nomor++."</td>";
-		echo "<td>".$data['issue_id']."</td>";
+		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
 		echo "<td>".$data['week']."</td>";
-		echo "<td>".$data['type']."</td>";
-		echo "<td>".$data['model']."</td>";
-		echo "<td>".$data['place']."</td>";
-		echo "<td>".$data['issue']."</td>";
-		echo "<td>".$data['cause']."</td>";
-		echo "<td>".$data['sample_recieve']."</td>";
-		echo "<td>".$data['sample_analyze']."</td> ";
+		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
+		echo "<td>".$data['ap']."</td>";
+		echo "<td>".$data['cp']."</td>";
+		echo "<td>".$data['csc']."</td>";
+		echo "<td>".$data['progress']."</td>";
+
+	// 	echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
+	// 	<div class='w3-container w3-green w3-round-xlarge glow' style='width:70%'>70%</div>
+	//   </div>"."</td>";
+		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
+		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
+		echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
+		echo "<td style='text-align:center;'>".$data['ontime_submission']."</td> ";
+		echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
 		echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-		echo "<td bgcolor=$warna>".$data['status']."</td>";
-		echo "<td style='text-align:center;'>".$data['nama']."</td>";	
-        echo "<td style='text-align:center;'>";	
-        echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";	
-        echo "<a onClick=\"return confirm('Are you sure you want to delete?')\" class='btn btn-danger' href='hapus.php?id=$data[id]'>Delete</a>";			
-		
+        echo "<td style='width:8%'>".$data['note']."</td>";
+		echo "<td style='text-align:center;'>";	
+		echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";			
         echo "</td>";        			
 echo "</tr>";
 echo "</tbody>";

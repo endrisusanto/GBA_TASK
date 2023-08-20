@@ -16,7 +16,7 @@ while($row = mysqli_fetch_assoc($query_result)){
 }
 	
 //Menghitung jumlah total yang approved
-	$query = "SELECT COUNT(status) AS count FROM task WHERE status LIKE '%Issue Baru%' "; 
+	$query = "SELECT COUNT(status) AS count FROM task WHERE status LIKE '%Task Baru !%' "; 
 $query_result = mysqli_query($conn,$query); 
 while($row = mysqli_fetch_assoc($query_result)){
 	$baru = $row['count'];
@@ -46,6 +46,7 @@ while($row = mysqli_fetch_assoc($query_result)){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="icon" type="image/x-icon" href="file/pe.ico">
 <meta property="og:image" content="http://107.102.39.55/pe_analisa/file/2.jpg" />
 <meta property="og:title" content="PE QUALITY PORTAL" />
@@ -81,6 +82,7 @@ a.thick {
 body {
 	font-family: "Roboto Condensed", Helvetica, sans-serif;
 	background-color: #f7f7f7;
+	
 }
 .container { margin: 150px auto; max-width: 960px; }
 a {
@@ -92,6 +94,7 @@ table {
 	border-collapse: collapse;
 	margin-top: 20px;
 	margin-bottom: 20px;
+	
 }
 table, th, td {
 	border: 1px solid #bbb;
@@ -104,8 +107,12 @@ th {
 	background-color: #ddd;
 }
 th,td {
-	padding: 5px;
-}
+			padding-top: 3px;
+			padding-bottom: 3px;
+			padding-left: 4px;
+			padding-right: 4px;		
+			font-size: 12px;
+		}
 button {
 	cursor: pointer;
 }
@@ -167,6 +174,31 @@ button {
 	text-align: center;
 	color: white;
 	font-weight: 1000;}
+img {
+	padding-right: 2px;
+	border-radius: 50%;
+}
+p {
+	margin: 0 0 0px;
+}
+.glow {
+		color: #fff;
+		animation: glow 1s ease-in-out infinite alternate;
+		}
+
+		@-webkit-keyframes glow {
+		from {
+		box-shadow: 
+		0 0 10px #ff8a80, 
+		0 0 5px #33b5e5;
+		}
+
+		to {
+		box-shadow: 
+		0 0 5px #ff8a80,
+		0 0 10px #33b5e5;
+		}
+		}
 </style>
 <body>
 <div class="container-fluid">
@@ -203,20 +235,21 @@ button {
 	<table  class="tablemanager">
 		<thead>
 			<tr>
-				<th style="text-align:center;" class="disableSort">No.</th>
-				<th class="disableSort">Issue ID</th>
+			<th style="text-align:center;" class="disableSort">No.</th>
+				<th hidden class="disableSort">ID Issue</th>
+				<th class="disableSort disableFilterBy">PIC</th>
 				<th class="disableSort">Week</th>
-				<th class="disableSort">Type</th>
-                <th class="disableSort">Model</th>
-				<th class="disableSort">Place</th>
-				<th class="disableSort">Issue</th>
-				<th class="disableSort">Cause</th>
-				<th class="disableSort">Sample Recieve</th>
-				<th class="disableSort">Sample Analyzed</th>
-				<th style="text-align:center;" class="disableSort">Report</th>	
+				<th style="text-align:center;" class="disableSort">Type Submission</th>
+				<th class="disableSort">AP VERSION</th>
+				<th class="disableSort">CP VERSION</th>
+				<th class="disableSort">CSC VERSION</th>
+				<th class="disableSort">Progress</th>
 				<th class="disableSort">Status</th>
-				<th style="text-align:center;" class="disableSort">PIC</th>
-				<!-- <th style="text-align:center;" class="disableSort">Member</th> -->
+				<th class="disableSort">Request Date</th>
+				<th class="disableSort">Submission Date</th>	
+				<th class="disableSort">Ontime Submission</th>
+				<th class="disableSort">Deadline</th>	
+				<th class="disableSort">Note</th>	
 			</tr>
 		</thead>	
 		<?php 
@@ -224,45 +257,79 @@ button {
 
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
-$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1 ORDER BY `task`.`sample_recieve` DESC ");
+$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1 ORDER BY `task`.`issue_id` DESC ");
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarna = $data['status'];
+	$kodewarnapic = $data['nama'];
+	$kodewarnatype = $data['type'];
 	$file = 'file/'.$data['report'];
 if($data['report'] > 1){
 	$filename='<span class="glyphicon glyphicon-eye-open"></span>';
 }
 else{
-	$filename='';
+    $filename='';
 }
-if(strpos($kodewarna,'Progress')!==false){
-	$warna='#fff200';
+if(strpos($kodewarna,'PROGRESS')!==false){
+	$warna='#F0B86E';
   }
-  elseif(strpos($kodewarna,'Issue Baru')!==false){
-	$warna='#ff6928';
+  elseif(strpos($kodewarna,'Task Baru !')!==false){
+	$warna='#F6635C';
   }
-  elseif(strpos($kodewarna,'Finish')!==false){
-	$warna='#7fb765';
+  elseif(strpos($kodewarna,'APPROVED')!==false){
+	$warna='#428bca';
+  }
+  elseif(strpos($kodewarna,'SUBMITED')!==false){
+	$warna='#3e8339';
   }
   else{
 	$warna='white';
-  }		
+  }
+  if(strpos($kodewarnapic,'Endri Susanto')!==false){
+	$warnapic='#7A86B6';
+  }
+  elseif(strpos($kodewarnapic,'Lutfi Bukhori')!==false){
+	$warnapic='#647E68';
+  }
+  elseif(strpos($kodewarnapic,'Fazlur Rahman')!==false){
+	$warnapic='#C996CC';
+  }
+  else{
+	$warnapic='#D27685';
+  }	
+  if(strpos($kodewarnatype,'SMR')!==false){
+	$warnatype='#ff6928';
+  }
+  elseif(strpos($kodewarnatype,'NORMAL EXCEPTION')!==false){
+	$warnatype='#7fb765';
+  }
+  elseif(strpos($kodewarnatype,'SIMPLE EXCEPTION')!==false){
+	$warnatype='#428bca';
+  }
+  else{
+	$warnatype='#ff6868';
+  }
 		echo "<tbody>";
 		echo "<tr>";
 		echo "<td style='text-align:center;'>".$nomor++."</td>";
-		echo "<td>".$data['issue_id']."</td>";
+		echo "<td hidden>".$data['issue_id']."</td>";
+		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
 		echo "<td>".$data['week']."</td>";
-		echo "<td>".$data['type']."</td>";
-        echo "<td>".$data['model']."</td>";
-		echo "<td>".$data['place']."</td>";
-		echo "<td>".$data['issue']."</td>";
-		echo "<td style='width: 20%;'>".$data['cause']."</td>";
-		echo "<td>".$data['sample_recieve']."</td>";
-		echo "<td>".$data['sample_analyze']."</td> ";
-		echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-		echo "<td bgcolor=$warna>".$data['status']."</td>";
-		echo "<td style='text-align:center;'>".$data['nama']."</td>";
-		// echo "<td style='text-align:center;'>".$data['part']."</td>";
+		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
+        echo "<td>".$data['ap']."</td>";
+		echo "<td>".$data['cp']."</td>";
+		echo "<td>".$data['csc']."</td>";
+		echo "<td>".$data['progress']."</td>";
+
+	// 	echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
+	// 	<div class='w3-container w3-green w3-round-xlarge glow' style='width:70%'>70%</div>
+	//   </div>"."</td>";
+		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
+		echo "<td>".$data['request_date']."</td> ";
+		echo "<td>".$data['submission_date']."</td>";
+		echo "<td>".$data['ontime_submission']."</td>";
+		echo "<td>".$data['deadline']."</td>";
+		echo "<td style='width:8%'>".$data['note']."</td>";
 		echo "</tr>";		
 		echo "</tbody>";
 		?>

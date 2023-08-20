@@ -20,7 +20,7 @@ if($result->num_rows> 0){
 <!DOCTYPE html>
 <html>
 <head>
-<title>PE QUALITY PORTAL</title>
+<title>GOOGLE BUILD APPROVAL</title>
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap CSS -->
@@ -56,10 +56,32 @@ body {
                     
 
 					<div class="row">
-					<div style="display:none" class="col-sm-1">
-					<label for="name">PIC</label>
-                        <input readonly type="text" class="form-control" id="part" name="part" placeholder="Masukkan Part Group Member" value="<?php echo  $_SESSION['part'] ?>">
+                    
+					<div class="col-sm-3">
+					<label for="name">AP VERSION</label>
+                        <input type="text" class="form-control" id="ap" name="ap" placeholder="AP Version">
                     </div>
+					<div class="col-sm-3">
+					<label for="name">CP VERSION</label>
+                        <input type="text" class="form-control" id="cp" name="cp" placeholder="CP Version">
+                    </div>
+					<div class="col-sm-3">
+					<label for="name">CSC VERSION</label>
+                        <input type="text" class="form-control" id="csc" name="csc" placeholder="CSC Version">
+                    </div>
+                    <div class="col-sm-3">
+					<label for="name">TYPE SUBMISSION</label>
+						<div>
+							<select  class="form-control" name="type">
+								<option>NORMAL EXCEPTION</option>
+								<option>SMR</option>
+								<option>SIMPLE EXCEPTION</option>
+								<option>REGULAR</option>
+							</select>
+						</div>					
+					</div>
+                    </div>
+					<div class="row">
                     <div class="col-sm-3">
                         <label for="name">PIC</label>
                         <select  id="hide"  class="form-control" name="nama" id="resizing_select">
@@ -81,70 +103,22 @@ body {
 						</select>
                     </div> 
 					<div class="col-sm-3">
-					<label for="name">MODEL</label>
-                        <input type="text" class="form-control" id="model" name="model" placeholder="Masukkan Model Device">
+						<label for="name">REQUEST DATE</label>
+                        <input onkeydown="return false" type="date" class="form-control" id="request_date" name="request_date"  value="<?php echo date("Y-m-d");?>" placeholder="<?php echo date("Y-m-d");?>">
                     </div>
-										
-						<div class="col-sm-2">
-					<label for="name">TYPE</label>
-						<div>
-							<select  class="form-control" name="type">
-								<option>Etc.</option>
-								<option>HW</option>
-								<option>MECHA</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-2">
-					<label for="name">PLACE</label>
-						<div>
-							<select  class="form-control" name="place">
-								<option>Etc.</option>
-								<option>OQC</option>
-								<option>MARKET</option>
-								<option>PROCESS</option>
-							</select>
-						</div>					
-					</div>
-					<div class="col-sm-2">
-						<label for="name">WEEK</label>
-                        <input onkeydown="return false" type="week" class="form-control" id="week" name="week" value="<?php echo date('Y').'-W'.date('W');?>" placeholder="<?php echo date('Y').'-W'.date('W');?>">
-					</div>				
-					</div>
-					<br>
-					<div class="row">
-					<div class="col-sm-6">
-                        <label for="name">ISSUE</label><br>
-						<textarea name="issue" rows="10" cols="100%"></textarea>
-                    </div>					
-					<div class="col-sm-6">
-						<label for="name">CAUSE</label><br>
-						<textarea name="cause" rows="10" cols="100%"></textarea>
+                    <!-- <div class="col-sm-2">
+						<label for="name">WEEK</label> -->
+                        <input hidden onkeydown="return false" type="week" class="form-control" id="week" name="week" value="<?php echo date('Y').'-W'.date('W');?>" placeholder="<?php echo date('Y').'-W'.date('W');?>">
+					<!-- </div>	 -->
+                    <div class="col-sm-3">
+						<label for="name">DEADLINE</label>
+                        <input onkeydown="return false" type="date" class="form-control" id="deadline" name="deadline"  value="<?php echo date("Y-m-d");?>" placeholder="<?php echo date("Y-m-d");?>">
                     </div>
-					</div>
-
-					<div class="row">
-					<div class="col-sm-6">
-						<label for="name">SAMPLE RECIEVE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="sample_recieve" name="sample_recieve"  value="<?php echo date("Y-m-d");?>" placeholder="<?php echo date("Y-m-d");?>">
-                    </div>
-					<!-- <div class="col-sm-6"> -->
-						<!-- <label for="name">SAMPLE ANALIZED</label> -->
-                        <input type="text" class="form-control" id="sample_analyze" name="sample_analyze"  value="N/A"hidden>					
-					<!-- </div> -->
-					<div class="col-sm-6">
+					<div class="col-sm-3">
                         <label for="name">STATUS</label>
-                        <input type="text" class="form-control" id="status" name="status" value="Issue Baru" readonly >
+                        <input type="text" class="form-control" id="status" name="status" value="Task Baru !" readonly >
                     </div>
-					</div>
-
-					
-					
-					
-					<div class="form-group">
-                        <label for="name">REPORT</label>
-                        <input type="file" class="form-control" id="report" name="report">
-                    </div>
+					</div><br>
 					
 					<div class="row">
 					<div class="col-sm-6">

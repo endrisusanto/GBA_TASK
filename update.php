@@ -4,13 +4,17 @@ $id = $_POST['id'];
 $nama = $_POST['nama'];
 $week = $_POST['week'];
 $type = $_POST['type'];
-$model = $_POST['model'];
-$place = $_POST['place'];
-$issue = $_POST['issue'];
-$cause = $_POST['cause'];
-$sample_recieve = $_POST['sample_recieve'];
-$sample_analyze = $_POST['sample_analyze'];
+$ap = $_POST['ap'];
+$cp = $_POST['cp'];
+$csc = $_POST['csc'];
 $status = $_POST['status'];
+$request_date = $_POST['request_date'];
+$submission_date = $_POST['submission_date'];
+$ontime_submission = $_POST['ontime_submission'];
+$approved_date = $_POST['approved_date'];
+$ontime_approved = $_POST['ontime_approved'];
+$lang = $_POST['progress'];
+$lang1 = implode(",",$lang);
 $issue_id = $_POST['issue_id'];
 date_default_timezone_set("Asia/Jakarta");
 $rand = date("Y.m.d_H.i.s");
@@ -23,17 +27,17 @@ $xx = $rand.'_'.$filename;
 
 if($ukuran > 0 ){		
 move_uploaded_file($_FILES['report']['tmp_name'], 'file/'.$rand.'_'.$filename);
-mysqli_query($koneksi,"UPDATE analisa SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',model='$model',place='$place',issue='$issue',cause='$cause',sample_recieve='$sample_recieve',sample_analyze='$sample_analyze',report='$xx',status='$status',timestamp='$timestamp' WHERE id='$id'");
-header("location:active_issue.php?pesan=update");
+mysqli_query($koneksi,"UPDATE task SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',ap='$ap',cp='$cp',csc='$csc',progress='$lang1',status='$status',request_date='$request_date',submission_date='$submission_date',ontime_submission='$ontime_submission',deadline='$deadline',approved_date='$approved_date',ontime_approved='$ontime_approved',note='$note',report='$xx',timestamp='$timestamp'  WHERE id='$id'");
+header("location:active_task.php?pesan=update");
 }
 else{    
-    if($sample_analyze >0){
-        mysqli_query($koneksi,"UPDATE analisa SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',model='$model',place='$place',issue='$issue',cause='$cause',sample_recieve='$sample_recieve',sample_analyze='$sample_analyze',status='$status',timestamp='$timestamp' WHERE id='$id'");
-        header("location:active_issue.php?pesan=update_berhasil");    
+    if($submission_date >0){
+        mysqli_query($koneksi,"UPDATE task SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',ap='$ap',cp='$cp',csc='$csc',progress='$lang1',status='$status',request_date='$request_date',submission_date='$submission_date',ontime_submission='$ontime_submission',deadline='$deadline',approved_date='$approved_date',ontime_approved='$ontime_approved',note='$note',timestamp='$timestamp'  WHERE id='$id'");
+        header("location:active_task.php?pesan=update_berhasil");    
     }
     else{
-        mysqli_query($koneksi,"UPDATE analisa SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',model='$model',place='$place',issue='$issue',cause='$cause',sample_recieve='$sample_recieve',sample_analyze='N/A',status='$status',timestamp='$timestamp' WHERE id='$id'");
-        header("location:active_issue.php?pesan=update_berhasil");
+        mysqli_query($koneksi,"UPDATE task SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',ap='$ap',cp='$cp',csc='$csc',progress='$lang1',status='$status',request_date='$request_date',submission_date='N/A',ontime_submission='$ontime_submission',deadline='$deadline',approved_date='N/A',ontime_approved='$ontime_approved',note='$note',timestamp='$timestamp'  WHERE id='$id'");
+        header("location:active_task.php?pesan=update_berhasil");
     }
 }
 ?>

@@ -51,8 +51,6 @@ if( isset($_POST['submit']) ){
         $password = mysqli_real_escape_string($con, $password);
         $repass   = stripslashes($_POST['repassword']);
         $repass   = mysqli_real_escape_string($con, $repass);
-        $part   = stripslashes($_POST['part']);
-        $part   = mysqli_real_escape_string($con, $part);
         $level   = stripslashes($_POST['level']);
         $level   = mysqli_real_escape_string($con, $level);
         $pin = stripslashes($_POST['pin']);
@@ -74,13 +72,12 @@ if( isset($_POST['submit']) ){
                     // $pass  = password_hash($password, PASSWORD_DEFAULT);
                     $pass 	= md5($password);
                     //insert data ke database
-                    $query = "INSERT INTO users (username,name,email, password, level, part ) VALUES ('$username','$name','$email','$pass','$level','$part')";
+                    $query = "INSERT INTO users (username,name,email, password, level ) VALUES ('$username','$name','$email','$pass','$level')";
                     $result   = mysqli_query($con, $query);
                     //jika insert data berhasil maka akan diredirect ke halaman index.php serta menyimpan data username ke session
                     if ($result) {
                         $_SESSION['name'] = $name;
                         $_SESSION['level'] = $level;
-                        $_SESSION['part'] = $part;
                        
                         header('Location: index.php');
                     
@@ -109,13 +106,12 @@ if( isset($_POST['submit']) ){
                         // $pass  = password_hash($password, PASSWORD_DEFAULT);
                         $pass 	= md5($password);
                         //insert data ke database
-                        $query = "INSERT INTO users (username,name,email, password, level, part ) VALUES ('$username','$name','$email','$pass','$level','$part')";
+                        $query = "INSERT INTO users (username,name,email, password, level ) VALUES ('$username','$name','$email','$pass','$level')";
                         $result   = mysqli_query($con, $query);
                         //jika insert data berhasil maka akan diredirect ke halaman index.php serta menyimpan data username ke session
                         if ($result) {
                             $_SESSION['name'] = $name;
                             $_SESSION['level'] = $level;
-                            $_SESSION['part'] = $part;
                            
                             header('Location: index.php');
                         
@@ -180,7 +176,7 @@ if( isset($_POST['submit']) ){
                         <?php }?>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <!-- <div class="col-sm-6">
                         <label>Group Part</label>
                             <div >
                                 <select  class="form-control" name="part">
@@ -190,10 +186,10 @@ if( isset($_POST['submit']) ){
                                     <option>PE PROCESS</option>
                                 </select>
                             </div>					
-                        </div>
+                        </div> -->
                     
                     <!-- //BAGIAN PIN-------------------------------------------------------------------------------------- -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                     <label>Authority User</label>
                     <?php if($validatePIN != '') {?>
                             <p class="text-danger"><?= $validatePIN; ?></p>
@@ -205,10 +201,10 @@ if( isset($_POST['submit']) ){
                     <div class="form-check form-switch form-check-inline">
                         <input class="form-check-input form-check-inline"  type="radio" name="level"  onclick="yesnoCheck();" id="level" value="member" checked>
                         <label >MEMBER</label>
-                    </div></div><br>
+                    </div>
+                    </div>
 
-
-                    <div class="form-group" style="display :none">
+                    <div class="col-sm-8" style="display :none">
                         <label>PIN</label>
                         <input  type="password" class="form-control" id="InputPIN" name="pin" value="2023">
                         <?php if($validatePIN != '') {?>
@@ -216,10 +212,10 @@ if( isset($_POST['submit']) ){
                         <?php }?>
                     </div>
                     <br><br><br>
-                    <div class="form-group" id="hide" style="display :none">
+                    <div class="col-sm-8" id="hide" style="display :none">
                         <label>Masukkan PIN Authentication</label>
                         <input  type="password" class="form-control" id="hide" name="repin" placeholder="Contact: endri.s@samsung.com">
-                    </div>
+                    </div></div>
                     <!-- //BAGIAN PIN-------------------------------------------------------------------------------------- -->
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary btn-block">Register</button>
