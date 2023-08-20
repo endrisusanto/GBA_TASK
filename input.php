@@ -112,7 +112,7 @@ body {
 					<!-- </div>	 -->
                     <div class="col-sm-3">
 						<label for="name">DEADLINE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="deadline" name="deadline"  value="<?php echo date("Y-m-d");?>" placeholder="<?php echo date("Y-m-d");?>">
+                        <input onkeydown="return false" type="text" readonly class="form-control" id="deadline" name="deadline"  value="<?php echo date('d/m/Y',strtotime("+7 days"));?>" placeholder="<?php echo date('j F, Y',strtotime("+7 days"));?>">
                     </div>
 					<div class="col-sm-3">
                         <label for="name">STATUS</label>

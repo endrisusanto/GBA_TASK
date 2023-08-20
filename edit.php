@@ -78,6 +78,9 @@ input.largerCheckbox {
             font-weight:normal;
             box-shadow: 5px 10px #ddd;
 		    }
+            button{
+                box-shadow: 5px 10px #ddd;   
+            }
             
 
 </style>
@@ -127,7 +130,7 @@ input.largerCheckbox {
                     <div class="col-sm-2">
                         <label for="name">PIC</label>
                         <select  id="hide"  class="form-control" name="nama" id="resizing_select">
-                        <optgroup label="Last Data">
+                        <optgroup label="Current Data">
                             <option value="<?php echo $data['nama'] ?>"><?php echo $data['nama'] ?></option>
                         </optgroup>
                         <optgroup label="Option Update">
@@ -146,11 +149,16 @@ input.largerCheckbox {
                     </div>           
 					<div class="col-sm-2">
                         <label for="name">TYPE</label>
-						<select class="form-control" name="type" id="resizing_select">
-                        <optgroup label="Last Data">
+						<select class="form-control" name="type" id="resizing_select" >
+                        <optgroup label="Current Data" >
 								<option value="<?php echo $data['type'] ?>"><?php echo $data['type'] ?></option>
                         </optgroup>
-                        <optgroup label="Option Update">
+                        <optgroup label="Option Update" <?php
+                                if ($pic_level=='member')
+                                {
+                                echo "hidden";
+                                }
+                            ?>>
 								<option>NORMAL EXCEPTION</option>
 								<option>SMR</option>
 								<option>SIMPLE EXCEPTION</option>
@@ -169,7 +177,7 @@ input.largerCheckbox {
 					<div class="col-sm-2">
 					<label for="status">STATUS</label>
 							<select class="form-control" name="status" id="resizing_select">
-                            <optgroup label="Last Data">
+                            <optgroup label="Current Data">
 								<option value="<?php echo $data['status'] ?>"><?php echo $data['status'] ?></option>
                                 </optgroup>
                             <optgroup label="Option Update">
@@ -204,7 +212,7 @@ input.largerCheckbox {
                     
 <table>
     <tr>
-    <th colspan="10">GBA TEST PROGRESS</th>
+    <th colspan="11">GBA TEST SUITE</th>
   </tr>
   <tr>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -221,7 +229,10 @@ input.largerCheckbox {
                             
                             <label for="cts">CTS</label>
                         </td></a>
-                        <td ><a  id="gtsbox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a  id="gtsbox">
                             <input type="checkbox" onChange="myFunction(gtsbox, this)" class="largerCheckbox" id="gts" name="progress[]" value="gts" 
                             <?php
                                 if (in_array('gts',$progress1))
@@ -231,7 +242,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="gts">GTS</label>
                         </td></a>
-                        <td ><a id="ctsvbox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="ctsvbox">
                             <input type="checkbox" onChange="myFunction(ctsvbox, this)"  class="largerCheckbox"id="ctsv" name="progress[]" value="ctsv"
                             <?php
                                 if (in_array('ctsv',$progress1))
@@ -241,7 +258,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="ctsv">CTS V</label>
                         </td></a>
-                        <td ><a id="gtsvbox" >
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="gtsvbox" >
                             <input type="checkbox" onChange="myFunction(gtsvbox, this)" class="largerCheckbox"id="gtsv" name="progress[]" value="gtsv"
                             <?php
                                 if (in_array('gtsv',$progress1))
@@ -251,7 +274,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="gtsv">GTS V</label>
                         </td></a>
-                        <td ><a id="bvtbox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="bvtbox">
                             <input type="checkbox" onChange="myFunction(bvtbox, this)"  class="largerCheckbox"id="bvt" name="progress[]" value="bvt"
                             <?php
                                 if (in_array('bvt',$progress1))
@@ -261,7 +290,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="bvt">BVT</label>
                         </td></a>
-                        <td ><a id="getpropbox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="getpropbox">
                             <input type="checkbox" onChange="myFunction(getpropbox, this)" class="largerCheckbox"id="getprop" name="progress[]" value="getprop"
                             <?php
                                 if (in_array('getprop',$progress1))
@@ -271,7 +306,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="getprop">GETPROP</label>
                         </td></a>
-                        <td ><a id="sdtbox" >
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="sdtbox" >
                             <input type="checkbox" onChange="myFunction(sdtbox, this)"class="largerCheckbox"id="sdt" name="progress[]" value="sdt"
                             <?php
                                 if (in_array('sdt',$progress1))
@@ -281,7 +322,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="sdt">SDT</label>
                         </td></a>
-                        <td ><a id="svtbox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="svtbox">
                             <input type="checkbox" onChange="myFunction(svtbox, this)" class="largerCheckbox"id="svt" name="progress[]" value="svt"
                             <?php
                                 if (in_array('svt',$progress1))
@@ -291,7 +338,13 @@ input.largerCheckbox {
                             ?>>
                             <label for="svt">SVT</label>
                         </td></a>
-                        <td ><a id="bootimagebox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('SMR',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="bootimagebox">
                             <input type="checkbox" onChange="myFunction(bootimagebox, this)" class="largerCheckbox"id="bootimage" name="progress[]" value="bootimage"
                             <?php
                                 if (in_array('bootimage',$progress1))
@@ -301,7 +354,26 @@ input.largerCheckbox {
                             ?>>
                             <label for="bootimage">BOOT IMAGE</label>
                         </td></a>
-                        <td ><a id="stsbox">
+                        <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?><?php if (in_array('NORMAL EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="scatbox">
+                            <input type="checkbox" onChange="myFunction(scatbox, this)" class="largerCheckbox"id="scat" name="progress[]" value="scat"
+                            <?php
+                                if (in_array('scat',$progress1))
+                                {
+                                echo "checked";
+                                }
+                            ?>>
+                            <label for="scat">SCAT</label>
+                        </td></a>
+                        <td <?php if (in_array('NORMAL EXCEPTION',$type1))
+                                {
+                                echo "hidden";
+                                }?>><a id="stsbox">
                             <input type="checkbox" onChange="myFunction(stsbox, this)" class="largerCheckbox"id="sts" name="progress[]" value="sts"
                             <?php
                                 if (in_array('sts',$progress1))
@@ -311,9 +383,19 @@ input.largerCheckbox {
                             ?>>
                             <label for="sts">STS</label>
                         </td></a>
+                        <td>
+                            <input type="checkbox" onChange="myFunction(checkedbox, this)" class="largerCheckbox"id="checked" name="progress[]" value="inprogress" hidden checked >
+                        </td>
                         </tr>
                             </table>
 				
+                            <div class="row">
+					<div class="col-sm-12">
+                        <label for="note">NOTE</label><br>
+						<textarea name="note" rows="4" cols="100%"><?php echo $data['note'] ?></textarea>
+                    </div>					
+					
+					</div>
 
                     
 					

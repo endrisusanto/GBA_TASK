@@ -1,6 +1,7 @@
 <?php 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 $id = $_POST['id'];
+$note = $_POST['note'];
 $nama = $_POST['nama'];
 $week = $_POST['week'];
 $type = $_POST['type'];

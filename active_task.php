@@ -184,6 +184,7 @@ while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarna = $data['status'];
 	$kodewarnapic = $data['nama'];
 	$kodewarnatype = $data['type'];
+	$type = $data['type'];
 	$file = 'file/'.$data['report'];
 if($data['report'] > 1){
 	$filename='<span class="glyphicon glyphicon-eye-open"></span>';
@@ -191,6 +192,30 @@ if($data['report'] > 1){
 else{
     $filename='';
 }
+
+
+
+$type = $data['type'];
+if($type == 'SMR'){
+	$persentype = '4';
+}
+elseif($type == 'NORMAL EXCEPTION'){
+	$persentype = '9';
+}
+elseif($type == 'REGULAR'){
+	$persentype = "11";
+}
+else{
+	$persentype = "1";
+}
+	$loading =$data['progress'];
+    $loading1 = explode(',',$loading);
+	$totalElements = count($loading1)-'1';
+	$percentage = ($totalElements / $persentype) * 100;
+	$persen = number_format($percentage) . '%';
+// echo number_format($percentage) . '%<br>';
+// echo count($loading1);
+// echo $loading. '<br>';
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
   }
@@ -239,11 +264,11 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td>".$data['ap']."</td>";
 		echo "<td>".$data['cp']."</td>";
 		echo "<td>".$data['csc']."</td>";
-		echo "<td>".$data['progress']."</td>";
+		// echo "<td>".$data['progress']."</td>";
 
-	// 	echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
-	// 	<div class='w3-container w3-green w3-round-xlarge glow' style='width:70%'>70%</div>
-	//   </div>"."</td>";
+		echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
+	<div class='w3-container w3-orange progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+	 </div>"."</td>";
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
 		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
 		echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
