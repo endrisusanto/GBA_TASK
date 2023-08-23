@@ -104,7 +104,7 @@ body {
                     </div> 
 					<div class="col-sm-3">
 						<label for="name">REQUEST DATE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="request_date" name="request_date"  value="<?php echo date("Y-m-d");?>" placeholder="<?php echo date("Y-m-d");?>">
+                        <input onkeydown="return false" type="date" class="form-control" id="request_date" onchange="calculateAndDisplayDate()" name="request_date" value="<?php echo date("Y-m-d");?>" placeholder="<?php echo date("Y-m-d");?>">
                     </div>
                     <!-- <div class="col-sm-2">
 						<label for="name">WEEK</label> -->
@@ -112,7 +112,9 @@ body {
 					<!-- </div>	 -->
                     <div class="col-sm-3">
 						<label for="name">DEADLINE</label>
-                        <input onkeydown="return false" type="text" readonly class="form-control" id="deadline" name="deadline"  value="<?php echo date('d/m/Y',strtotime("+7 days"));?>" placeholder="<?php echo date('j F, Y',strtotime("+7 days"));?>">
+                        <input onkeydown="return false" type="date" class="form-control" id="deadline" name="deadline" value="<?php echo date('Y-m-d',strtotime("+7 days"));?>" placeholder="<?php echo date('Y-m-d',strtotime("+7 days"));?>">
+
+                        
                     </div>
 					<div class="col-sm-3">
                         <label for="name">STATUS</label>
@@ -146,12 +148,23 @@ else{
     document.getElementById('hide2').style.display = 'block';
 }
 </script>
+<script>
+        function calculateAndDisplayDate() {
+            var selectedDateInput = document.getElementById("request_date");
+            var selectedDate = new Date(selectedDateInput.value);
+            var futureDate = new Date(selectedDate);
+            futureDate.setDate(selectedDate.getDate() + 7);
+
+            var futureDateInput = document.getElementById("deadline");
+            futureDateInput.valueAsDate = futureDate;
+        }
+    </script>
+    
 </body>
     <!-- Bootstrap requirement jQuery pada posisi pertama, kemudian Popper.js, dan  yang terakhit Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </html>
-
 
 

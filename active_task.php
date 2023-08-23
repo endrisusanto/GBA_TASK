@@ -267,7 +267,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		// echo "<td>".$data['progress']."</td>";
 
 		echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
-	<div class='w3-container w3-orange progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+	<div class='w3-container w3-blue w3-tiny progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
 		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";

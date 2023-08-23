@@ -35,6 +35,18 @@ $query_result = mysqli_query($conn,$query);
 while($row = mysqli_fetch_assoc($query_result)){
 	$finish = $row['count'];
 }
+// Tanggal sekarang
+$today = new DateTime();
+
+// Jumlah hari kedepan yang ingin dihitung
+$daysToAdd = 7; // Ganti angka sesuai kebutuhan
+
+// Menambahkan hari kedepan ke tanggal sekarang
+$futureDate = clone $today;
+$futureDate->modify("+" . $daysToAdd . " days");
+
+// Menghitung selisih tanggal
+$interval = $today->diff($futureDate);
 
 ?>
 <!DOCTYPE html>
@@ -240,9 +252,9 @@ p {
 				<th class="disableSort disableFilterBy">PIC</th>
 				<th class="disableSort">Week</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
-				<th class="disableSort">AP VERSION</th>
-				<th class="disableSort">CP VERSION</th>
-				<th class="disableSort">CSC VERSION</th>
+				<th style="text-align:center;" class="disableSort">AP VERSION</th>
+				<th style="text-align:center;" class="disableSort">CP VERSION</th>
+				<th style="text-align:center;" class="disableSort">CSC VERSION</th>
 				<th class="disableSort">Progress</th>
 				<th class="disableSort">Status</th>
 				<th class="disableSort">Request Date</th>
@@ -337,13 +349,13 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
 		echo "<td>".$data['week']."</td>";
 		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
-        echo "<td>".$data['ap']."</td>";
-		echo "<td>".$data['cp']."</td>";
-		echo "<td>".$data['csc']."</td>";
+        echo "<td style='text-align:center;font-weight: bold'>".$data['ap']."</td>";
+		echo "<td style='text-align:center;font-weight: bold'>".$data['cp']."</td>";
+		echo "<td style='text-align:center;font-weight: bold'>".$data['csc']."</td>";
 		// echo "<td>".$data['progress']."</td>";
 
 		echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
-	<div class='w3-container w3-orange progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+	<div class='w3-container w3-tiny w3-blue progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
 		echo "<td>".$data['request_date']."</td> ";
