@@ -151,7 +151,7 @@ body {
 		<thead>
 			<tr>
 				<th style="text-align:center;" class="disableSort">No.</th>
-				<th class="disableSort">ID Issue</th>
+				<th hidden class="disableSort">ID Issue</th>
 				<th class="disableSort">Week</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
 				<th class="disableSort">AP VERSION</th>
@@ -163,6 +163,8 @@ body {
 				<th class="disableSort">Submission Date</th>	
 				<th class="disableSort">Ontime Submission</th>
 				<th class="disableSort">Deadline</th>		
+				<th class="disableSort">approved Date</th>		
+				<th class="disableSort">Ontime approved</th>		
 				<th class="disableSort disableFilterBy">GBA Letter</th>					
 				<th class="disableSort">Note</th>
 				<th style="text-align:center;" class="disableSort">PIC</th>
@@ -264,7 +266,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<tbody>";
   echo "<tr>";
   echo "<td style='text-align:center;'>".$nomor++."</td>";
-  echo "<td>".$data['issue_id']."</td>";
+  echo "<td hidden>".$data['issue_id']."</td>";
   echo "<td>".$data['week']."</td>";
   echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
   echo "<td>".$data['ap']."</td>";
@@ -280,6 +282,8 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
   echo "<td style='text-align:center;'>".$data['ontime_submission']."</td> ";
   echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
+  echo "<td style='text-align:center;'>".$data['approved_date']."</td> ";
+  echo "<td style='text-align:center;'>".$data['ontime_approved']."</td> ";
   echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
   echo "<td style='width:8%'>".$data['note']."</td>";
   echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
