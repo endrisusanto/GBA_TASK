@@ -213,9 +213,11 @@ else{
 	$totalElements = count($loading1)-'1';
 	$percentage = ($totalElements / $persentype) * 100;
 	$persen = number_format($percentage) . '%';
-// echo number_format($percentage) . '%<br>';
-// echo count($loading1);
-// echo $loading. '<br>';
+	$date1 = new DateTime();;
+    $date2 = new DateTime($data['deadline']);    
+    $interval = $date1->diff($date2);
+    $difference = $interval->days;
+	$sign = ($date1 > $date2) ? 'delay ' : '';
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
   }
@@ -272,7 +274,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
 		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
 		echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
-		echo "<td style='text-align:center;'>".$data['ontime_submission']."</td> ";
+		echo "<td style='text-align:center;'>".$sign . abs($difference). " hari"."</td>";
 		echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
 		echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
         echo "<td style='width:8%'>".$data['note']."</td>";
