@@ -168,15 +168,12 @@ input.largerCheckbox {
                         </optgroup>
 						</select>
                     </div>	
-                    <div class="col-sm-2">
+                    <div hidden class="col-sm-2">
                         <label for="name">WEEK</label>
                         <input readonly onkeydown="return false" type="week" class="form-control" id="week" name="week" placeholder="Masukkan WEEK" value="<?php echo $data['week'] ?>">
                     </div>	                   
-                    </div>
-
-
-                    <div class="row">  
-					<div class="col-sm-2">
+                     
+                    <div class="col-sm-2">
 					<label for="status">STATUS</label>
 							<select class="form-control" name="status" id="resizing_select">
                             <optgroup label="Current Data">
@@ -190,6 +187,9 @@ input.largerCheckbox {
                             </optgroup>
 							</select>
                     </div>
+                    </div>
+
+                    <div class="row">  					
                     <div class="col-sm-2">
                         <label for="name">REQUEST DATE</label>
                         <input onkeydown="return false" type="date" class="form-control" id="request_date" name="request_date" value="<?php echo $data['request_date'] ?>">
@@ -202,6 +202,10 @@ input.largerCheckbox {
                         <label for="name">ONTIME SUBMITED</label>
                         <input readonly onkeydown="return false" type="text" class="form-control" id="ontime_submission" name="ontime_submission" value="<?php echo $data['ontime_submission'] ?>">
                     </div>  
+                    <div class="col-sm-2">
+                        <label for="name">DEADLINE</label>
+                        <input onkeydown="return false" type="date" class="form-control" id="deadline" name="deadline" value="<?php echo $data['deadline'] ?>">
+                    </div>
                     <div class="col-sm-2">
                         <label for="name">APPROVED DATE</label>
                         <input onkeydown="return false" type="date" class="form-control" id="approved_date" name="approved_date" value="<?php echo $data['approved_date'] ?>">

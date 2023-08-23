@@ -257,10 +257,10 @@ p {
 				<th style="text-align:center;" class="disableSort">CSC VERSION</th>
 				<th class="disableSort">Progress</th>
 				<th class="disableSort">Status</th>
-				<th class="disableSort">Request Date</th>
-				<th class="disableSort">Submission Date</th>	
-				<th class="disableSort">Ontime Submission</th>
-				<th class="disableSort">Deadline</th>	
+				<th style="text-align:center;"  class="disableSort">Request Date</th>
+				<th style="text-align:center;"  class="disableSort">Submission Date</th>	
+				<th style="text-align:center;"  class="disableSort">Ontime Submission</th>
+				<th style="text-align:center;"  class="disableSort">Deadline</th>	
 				<th class="disableSort">Note</th>	
 			</tr>
 		</thead>	
@@ -300,9 +300,11 @@ else{
 	$totalElements = count($loading1)-'1';
 	$percentage = ($totalElements / $persentype) * 100;
 	$persen = number_format($percentage) . '%';
-// echo number_format($percentage) . '%<br>';
-// echo count($loading1);
-// echo $loading. '<br>';
+	$date1 = new DateTime();;
+    $date2 = new DateTime($data['deadline']);    
+    $interval = $date1->diff($date2);
+    $difference = $interval->days;
+	$sign = ($date1 > $date2) ? 'delay ' : '';
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
   }
@@ -358,10 +360,10 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 	<div class='w3-container w3-tiny w3-blue progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
-		echo "<td>".$data['request_date']."</td> ";
-		echo "<td>".$data['submission_date']."</td>";
-		echo "<td>".$data['ontime_submission']."</td>";
-		echo "<td>".$data['deadline']."</td>";
+		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
+		echo "<td style='text-align:center;'>".$data['submission_date']."</td>";
+		echo "<td style='text-align:center;'>".$sign . abs($difference). " hari"."</td>";
+		echo "<td style='text-align:center;'>".$data['deadline']."</td>";
 		echo "<td style='width:8%'>".$data['note']."</td>";
 		echo "</tr>";		
 		echo "</tbody>";

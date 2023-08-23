@@ -12,6 +12,7 @@ $status = $_POST['status'];
 $request_date = $_POST['request_date'];
 $submission_date = $_POST['submission_date'];
 $ontime_submission = $_POST['ontime_submission'];
+$deadline = $_POST['deadline'];
 $approved_date = $_POST['approved_date'];
 $ontime_approved = $_POST['ontime_approved'];
 $lang = $_POST['progress'];

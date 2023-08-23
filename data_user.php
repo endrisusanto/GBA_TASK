@@ -274,7 +274,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<td>".$data['csc']."</td>";
   // echo "<td>".$data['progress']."</td>";
 
-  echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
+  echo "<td style='width:5%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
 <div class='w3-container w3-orange progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 </div>"."</td>";
   echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
@@ -285,7 +285,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<td style='text-align:center;'>".$data['approved_date']."</td> ";
   echo "<td style='text-align:center;'>".$data['ontime_approved']."</td> ";
   echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-  echo "<td style='width:8%'>".$data['note']."</td>";
+  echo "<td style='width:5%'>".$data['note']."</td>";
   echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
   if ($level=="super user"){
 	echo "<td style='text-align:center;'>";	
