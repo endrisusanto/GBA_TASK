@@ -510,10 +510,10 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 var xValues = ["Dhanar", "Endri", "Lutfi", "Fazlur"];
 var yValues = [<?php echo json_encode($taskDhanar); ?>, <?php echo json_encode($taskEndri); ?>, <?php echo json_encode($taskLutfi); ?>, <?php echo json_encode($taskFazlur); ?>];
 var barColors = [
-  "#EA047E",
-  "#FF6D28",
-  "#FCE700",
-  "#00F5FF"
+  "#33b5e5",
+  "#ff8a80",
+  "#ffd180",
+  "#86cb4f"
 ];
 
 new Chart("myChart", {
