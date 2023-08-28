@@ -116,9 +116,13 @@ body {
 
                         
                     </div>
+                    <div class="col-sm-3">
+					<label for="name">PREVIOUS ID</label>
+                        <input type="text" class="form-control" id="baseid" name="baseid" placeholder="PREVIOUS ID" value="TBD" >
+                    </div>
 					<div class="col-sm-3">
-                        <label for="name">STATUS</label>
-                        <input type="text" class="form-control" id="status" name="status" value="Task Baru !" readonly >
+                        <label hidden for="name">STATUS</label>
+                        <input hidden type="text" class="form-control" id="status" name="status" value="Task Baru !" readonly >
                     </div>
 					</div><br>
 					

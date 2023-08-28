@@ -39,7 +39,8 @@ if( !isset($_SESSION['name']) ){
       		<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
         </ul>
       </li>
-	  <li><a href="export_active_issue.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
+	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
+			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
       <a class="btn btn-success navbar-btn" href="input.php">Tambah Data</a>
     </ul>
   </div>
@@ -149,17 +150,21 @@ body {
 			<tr>
 				<th style="text-align:center;" class="disableSort disableFilterBy">No.</th>
 				<th class="disableSort">PIC</th>
-				<th class="disableSort">Week</th>
+				<th hidden class="disableSort">Week</th>
+				<th class="disableSort">ID</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
-				<th class="disableSort">AP Version</th>
-				<th class="disableSort">CP Version</th>
-				<th class="disableSort">CSC Version</th>
+				<th style="text-align:center;" class="disableSort">AP Version</th>
+				<th style="text-align:center;" class="disableSort">CP Version</th>
+				<th style="text-align:center;" class="disableSort">CSC Version</th>
+				<th style="text-align:center;" class="disableSort">Previous ID</th>
 				<th style="text-align:center;" class="disableSort">Progress</th>
 				<th style="text-align:center;" class="disableSort">Status</th>
 				<th style="text-align:center;" class="disableSort">Request Date</th>
 				<th style="text-align:center;" class="disableSort">Submission Date</th>	
 				<th style="text-align:center;" class="disableSort">Ontime Submission</th>
-				<th style="text-align:center;" class="disableSort">Deadline</th>	
+				<th style="text-align:center;" class="disableSort">Deadline</th>		
+				<th style="text-align:center;"  class="disableSort">Submission ID</th>
+				<th style="text-align:center;"  class="disableSort">Reviewer</th>
 				<th class="disableSort disableFilterBy">GBA Letter</th>	
 				<th class="disableSort disableFilterBy">NOTE</th>	
 				<th style="text-align:center;" class="disableSort disableFilterBy">Action</th>	
@@ -173,17 +178,18 @@ body {
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 if ($_SESSION['level']=='super user'){
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'Finish%' ORDER BY `task`.`issue_id` DESC ");
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'APPROVED%' AND status NOT LIKE 'DROP/CANCEL%' ORDER BY `task`.`issue_id` DESC ");
 }
 else{
 	$pengguna = $_SESSION['name'];
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna' AND status NOT LIKE 'Finish%' ORDER BY `task`.`issue_id` DESC ");	
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna' AND status NOT LIKE 'APPROVED%' AND status NOT LIKE 'DROP/CANCEL%' ORDER BY `task`.`issue_id` DESC ");	
 }
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarna = $data['status'];
 	$kodewarnapic = $data['nama'];
 	$kodewarnatype = $data['type'];
+	$kodewarnasubmission = $data['ontime_submission'];
 	$type = $data['type'];
 	$file = 'file/'.$data['report'];
 if($data['report'] > 1){
@@ -219,7 +225,30 @@ else{
     $difference = $interval->days;
 	$sign = ($date1 > $date2) ? 'delay ' : '';
 	$sign1 = ($date1 > $date2) ? ' days' : ' days left';
-	$sign2 = ($date1 > $date2) ? '#F6635C' : '#428bca';
+	$warnasign = ($date1 > $date2) ? '#ff6928' : '#7fb765';
+	if($data['submission_date'] == 0){
+		$submited = 'TBD';
+	}
+	else {
+		$submited = $data['submission_date'];
+	}
+	if($data['ontime_submission'] == 'TBD'){
+		$ontime = 'hidden';
+		$ontime1= '';
+	}
+	else {
+		$ontime = '';
+		$ontime1 = 'hidden';
+	}
+	if(strpos($kodewarnasubmission,'ONTIME')!==false){
+		$warnasubmission='#428bca';
+	  }
+	  elseif(strpos($kodewarnasubmission,'DELAY')!==false){
+		$warnasubmission='darkred';
+	  }
+	  else{
+		$warnasubmission= 'red';
+	  }	
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
   }
@@ -232,8 +261,11 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   elseif(strpos($kodewarna,'SUBMITED')!==false){
 	$warna='#3e8339';
   }
+  elseif(strpos($kodewarna,'PASSED')!==false){
+	$warna='#3e8339';
+  }
   else{
-	$warna='white';
+	$warna= 'red';
   }	
   if(strpos($kodewarnapic,'Endri Susanto')!==false){
 	$warnapic='#7A86B6';
@@ -262,24 +294,28 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<tbody>";
 		echo "<tr>";
 		echo "<td style='text-align:center;'>".$nomor++."</td>";
-		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
-		echo "<td>".$data['week']."</td>";
+		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico'  height='25px' width='25px'>".$data['nama']."</p>"."</td>";	
+		echo "<td>".$data['issue_id']."</td>";
+		echo "<td hidden>".$data['week']."</td>";
 		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
-		echo "<td>".$data['ap']."</td>";
-		echo "<td>".$data['cp']."</td>";
-		echo "<td>".$data['csc']."</td>";
-		// echo "<td>".$data['progress']."</td>";
+		echo "<td style='text-align:center;'>".$data['ap']."</td>";
+		echo "<td style='text-align:center;'>".$data['cp']."</td>";
+		echo "<td style='text-align:center;'>".$data['csc']."</td>";
+		echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
 
-		echo "<td style='width:10%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
-	<div class='w3-container w3-blue w3-tiny progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+		echo "<td style='width:10%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
+	<div class='w3-dark-grey w3-normal progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
 		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
-		echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
-		echo "<td style='text-align:center;'><p style='display: inline-flex;color:white;background-color: $sign2;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . abs($difference). $sign1."</td>";
+		echo "<td style='text-align:center;'>".$submited."</td> ";
+		echo "<td style='text-align:center;' $ontime>"."<p style='display: inline-flex;color:white;background-color:$warnasubmission;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
+		echo "<td style='text-align:center;' $ontime1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . abs($difference). $sign1."</td>";
 		echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
+		echo "<td style='text-align:center;'>".$data['sid']."</td> ";
+		echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
 		echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-        echo "<td style='width:8%'>".$data['note']."</td>";
+        echo "<td>".$data['note']."</td>";
 		echo "<td style='text-align:center;'>";	
 		echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";			
         echo "</td>";        			

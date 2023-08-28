@@ -56,11 +56,8 @@ input.largerCheckbox {
             text-align:center;
 		}
 		td {
-            
 			padding-top: 20px;
-			padding-bottom: 20px;
-			padding-left: 4px;
-			padding-right: 4px;		
+			padding-bottom: 20px;	
             text-align:center;
             color:#fff;
             font-size:25px;
@@ -81,6 +78,24 @@ input.largerCheckbox {
             button{
                 box-shadow: 5px 10px #ddd;   
             }
+    .glow {
+		animation: glow 1s ease-in-out infinite alternate;
+		}
+
+		@-webkit-keyframes glow {
+		from {
+		box-shadow: 
+		0 0 10px red, 
+		0 0 5px red;
+		}
+
+		to {
+		box-shadow: 
+		0 0 20px red,
+		0 0 30px red;
+		}
+		}
+        
             
             
 
@@ -175,15 +190,16 @@ input.largerCheckbox {
                      
                     <div class="col-sm-2">
 					<label for="status">STATUS</label>
-							<select class="form-control" name="status" id="resizing_select">
+							<select class="form-control glow" name="status" id="status" onchange="changeFunc(value)">
                             <optgroup label="Current Data">
 								<option value="<?php echo $data['status'] ?>"><?php echo $data['status'] ?></option>
                                 </optgroup>
                             <optgroup label="Option Update">
-								<option>PROGRESS</option>
-								<option>SUBMITED</option>
-								<option>APPROVED</option>
-								<option>PASSED</option>
+								<option value="PROGRESS">PROGRESS</option>
+								<option value="SUBMITED">SUBMITED</option>
+								<option value="APPROVED">APPROVED</option>
+								<option value="PASSED">PASSED</option>
+                                <option value="DROP/CANCEL">DROP/CANCEL</option>
                             </optgroup>
 							</select>
                     </div>
@@ -196,7 +212,7 @@ input.largerCheckbox {
                     </div> 
                     <div class="col-sm-2">
                         <label for="name">SUBMISSION DATE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>">
+                        <input onkeydown="return false" type="date" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>" >
                     </div>       
                     <div class="col-sm-2">
                         <label for="name">ONTIME SUBMITED</label>
@@ -215,6 +231,20 @@ input.largerCheckbox {
                         <input readonly onkeydown="return false" type="text" class="form-control" id="ontime_approved" name="ontime_approved" value="<?php echo $data['ontime_approved'] ?>">
                     </div>              
 					</div>
+                    <div class="row">  					
+                    <div class="col-sm-4">
+                        <label for="name">PREVIOUS ID</label>
+                        <input type="text" class="form-control" id="baseid" name="baseid" value="<?php echo $data['baseid'] ?>">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="name">SUBMISSION ID (XID)</label>
+                        <input type="text" class="form-control" id="sid" name="sid" value="<?php echo $data['sid'] ?>">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="name">REVIEWER</label>
+                        <input type="text" class="form-control" id="reviewer" name="reviewer" value="<?php echo $data['reviewer'] ?>">
+                    </div>
+                    </div>
                     
 <table>
     <tr>
@@ -231,7 +261,10 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             
                             <label for="cts">CTS</label>
                         </td></a>
@@ -245,7 +278,10 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="gts">GTS</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -261,7 +297,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="ctsv">CTS V</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -277,7 +319,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="gtsv">GTS V</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -293,7 +341,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="bvt">BVT</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -309,7 +363,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="getprop">GETPROP</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -325,7 +385,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="sdt">SDT</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -341,7 +407,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="svt">SVT</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -357,7 +429,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('SMR',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="bootimage">BOOT IMAGE</label>
                         </td></a>
                         <td <?php if (in_array('SIMPLE EXCEPTION',$type1))
@@ -373,7 +451,13 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('SIMPLE EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?><?php if (in_array('NORMAL EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="scat">SCAT</label>
                         </td></a>
                         <td <?php if (in_array('NORMAL EXCEPTION',$type1))
@@ -386,13 +470,14 @@ input.largerCheckbox {
                                 {
                                 echo "checked";
                                 }
-                            ?>>
+                            ?><?php if (in_array('NORMAL EXCEPTION',$type1))
+                            {
+                            echo "disabled";
+                            }?>>
                             <label for="sts">STS</label>
                         </td></a>
-                        <td>
-                            <input type="checkbox" class="largerCheckbox"id="checked" name="progress[]" value="inprogress" hidden checked >
-                        </td>
                         </tr>
+                        <input type="checkbox" class="largerCheckbox"id="checked" name="progress[]" value="inprogress" hidden checked >
                             </table>
 				
                             <div class="row">
@@ -466,6 +551,81 @@ else{
             
         }
     </script>
+<!-- <script>
+function updatestatus(){
+    var dropdown = document.getElementById("status");
+    var selectedValue = dropdown.value;
+    var inputText = document.getElementById("SUBMITED")   
+    document.getElementById("ontime_approved").value = "DROP";   
+    document.getElementById("ontime_submission").value = "DROP";
+
+}
+</script> -->
+<script>
+function changeFunc($status) {
+
+if ($status == 'APPROVED' ) {
+  document.getElementById ("approved_date").value = "<?php echo date("Y-m-d");?>";
+  var date3 = new Date( document.getElementById("request_date").value);
+  var date4 = new Date(document.getElementById("deadline").value);
+  var Difference_In_Time = date4.getTime() - date3.getTime();
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = true;
+  }
+    
+  if (Difference_In_Days<=10)  {
+       document.getElementById("ontime_approved").value = "ONTIME";
+      }
+    else{
+       document.getElementById("ontime_approved").value = "DELAY";
+      }
+}
+else if ($status == 'SUBMITED' ) {
+        
+  document.getElementById ("submission_date").value = "<?php echo date("Y-m-d");?>";
+  var date1 = new Date( document.getElementById("deadline").value);
+  var date2 = new Date(document.getElementById("submission_date").value);
+  var Difference_In_Time = date2.getTime() - date1.getTime();
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = true;
+  }
+    
+  if (Difference_In_Days<=1)  {
+       document.getElementById("ontime_submission").value = "ONTIME";
+       document.getElementById("ontime_approved").value = "TBD";
+      }
+    else{
+       document.getElementById("ontime_submission").value = "DELAY";
+       document.getElementById("ontime_approved").value = "TBD";
+      }
+ 
+//document.getElementById("ontimesubmit").value = Difference_In_Days;
+      
+    
+} 
+else if ($status == 'DROP/CANCEL' ) {  
+          document.getElementById("ontime_submission").value = "DROP/CANCEL";   
+          document.getElementById("ontime_approved").value = "DROP/CANCEL";
+          var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  }
+     }
+else if ($status == 'PASSED' ) {  
+    document.getElementById("ontime_submission").value = "TBD";   
+    document.getElementById("ontime_approved").value = "TBD";
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].checked = false;
+  }
+}
+}
+</script>
+
 
     <!-- Bootstrap requirement jQuery pada posisi pertama, kemudian Popper.js, dan  yang terakhit Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

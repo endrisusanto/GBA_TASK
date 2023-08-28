@@ -42,7 +42,8 @@ if( !isset($_SESSION['name']) ){
       		<li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> LOGOUT</a></li>
         </ul>
       </li>
-	  <li><a href="export_user.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
+	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
+			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
       <a class="btn btn-success navbar-btn" href="input.php">Tambah Data</a>
     </ul>
   </div>
@@ -151,20 +152,23 @@ body {
 		<thead>
 			<tr>
 				<th style="text-align:center;" class="disableSort">No.</th>
-				<th hidden class="disableSort">ID Issue</th>
-				<th class="disableSort">Week</th>
+				<th  class="disableSort">ID Issue</th>
+				<th hidden class="disableSort">Week</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
 				<th class="disableSort">AP VERSION</th>
 				<th class="disableSort">CP VERSION</th>
 				<th class="disableSort">CSC VERSION</th>
+				<th style="text-align:center;" class="disableSort">Previous ID</th>
 				<th class="disableSort">Progress</th>
 				<th class="disableSort">Status</th>
 				<th class="disableSort">Request Date</th>
 				<th class="disableSort">Submission Date</th>	
 				<th class="disableSort">Ontime Submission</th>
 				<th class="disableSort">Deadline</th>		
-				<th class="disableSort">approved Date</th>		
-				<th class="disableSort">Ontime approved</th>		
+				<th class="disableSort">Approved Date</th>		
+				<th class="disableSort">Ontime approved</th>			
+				<th style="text-align:center;"  class="disableSort">Submission ID</th>
+				<th style="text-align:center;"  class="disableSort">Reviewer</th>
 				<th class="disableSort disableFilterBy">GBA Letter</th>					
 				<th class="disableSort">Note</th>
 				<th style="text-align:center;" class="disableSort">PIC</th>
@@ -193,6 +197,8 @@ else{
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$level = $_SESSION['level'];
+	$kodewarna1 = $data['ontime_submission'];
+	$kodewarna2 = $data['ontime_approved'];
 	$kodewarna = $data['status'];
 	$kodewarnapic = $data['nama'];
 	$kodewarnatype = $data['type'];
@@ -221,9 +227,51 @@ else{
 	$totalElements = count($loading1)-'1';
 	$percentage = ($totalElements / $persentype) * 100;
 	$persen = number_format($percentage) . '%';
-// echo number_format($percentage) . '%<br>';
-// echo count($loading1);
-// echo $loading. '<br>';
+
+	$date1 = new DateTime();;
+    $date2 = new DateTime($data['deadline']);    
+    $interval = $date1->diff($date2);
+    $difference_submited = $interval->days;
+	$sign = ($date1 > $date2) ? 'delay ' : '';
+	$sign1 = ($date1 > $date2) ? ' days' : ' days left';
+	$warnasign = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+	if($data['ontime_submission'] == 'TBD'){
+		$ontimesubmited = 'hidden';
+		$ontimesubmited1= '';
+	}
+	else {
+		$ontimesubmited = '';
+		$ontimesubmited1 = 'hidden';
+	}
+
+	$date1 = new DateTime();;
+    $date2 = new DateTime($data['deadline']);    
+    $interval = $date1->diff($date2);
+    $difference_approved = $interval->days;
+	$sign2 = ($date1 > $date2) ? 'delay ' : '';
+	$sign3 = ($date1 > $date2) ? ' days' : ' days left';
+	$warnasign1 = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+	if($data['ontime_approved'] == 'TBD'){
+		$ontimeapproved = 'hidden';
+		$ontimeapproved1= '';
+	}
+	else {
+		$ontimeapproved = '';
+		$ontimeapproved1 = 'hidden';
+	}
+
+	if($data['submission_date'] == 0){
+		$submited = 'TBD';
+	}
+	else {
+		$submited = $data['submission_date'];
+	}
+	if($data['approved_date'] == 0){
+		$approved = 'TBD';
+	}
+	else {
+		$approved = $data['submission_date'];
+	}
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
   }
@@ -236,9 +284,12 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   elseif(strpos($kodewarna,'SUBMITED')!==false){
 	$warna='#3e8339';
   }
-  else{
-	$warna='white';
+  elseif(strpos($kodewarna,'PASSED')!==false){
+	$warna='#3e8339';
   }
+  else{
+	$warna= 'red';
+  }	
   if(strpos($kodewarnapic,'Endri Susanto')!==false){
 	$warnapic='#7A86B6';
   }
@@ -263,30 +314,53 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   else{
 	$warnatype='#ff6868';
   }
+  if(strpos($kodewarna1,'ONTIME')!==false){
+	$warna1='#428bca';
+  }
+  elseif(strpos($kodewarna1,'DELAY')!==false){
+	$warna1='darkred';
+  }
+  else{
+	$warna1='#ff6868';
+  }
+
+  if(strpos($kodewarna2,'ONTIME')!==false){
+	$warna2='#428bca';
+  }
+  elseif(strpos($kodewarna2,'DELAY')!==false){
+	$warna2='darkred';
+  }
+  else{
+	$warna2='#ff6868';
+  }
   echo "<tbody>";
   echo "<tr>";
   echo "<td style='text-align:center;'>".$nomor++."</td>";
-  echo "<td hidden>".$data['issue_id']."</td>";
-  echo "<td>".$data['week']."</td>";
+  echo "<td >".$data['issue_id']."</td>";
+  echo "<td hidden>".$data['week']."</td>";
   echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
   echo "<td>".$data['ap']."</td>";
   echo "<td>".$data['cp']."</td>";
   echo "<td>".$data['csc']."</td>";
-  // echo "<td>".$data['progress']."</td>";
+  echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
 
-  echo "<td style='width:5%'>"."<div class='w3-light-grey w3-round-xlarge w3-tiny '>
-<div class='w3-container w3-orange progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+  echo "<td style='width:5%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
+<div class='w3-dark-grey progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 </div>"."</td>";
   echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
   echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
-  echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
-  echo "<td style='text-align:center;'>".$data['ontime_submission']."</td> ";
+  echo "<td style='text-align:center;'>".$submited."</td> ";
+  echo "<td style='text-align:center;' $ontimesubmited>"."<p style='display: inline-flex;color:white;background-color:$warna1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
+  echo "<td style='text-align:center;' $ontimesubmited1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . abs($difference_submited). $sign1."</td>";
   echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
-  echo "<td style='text-align:center;'>".$data['approved_date']."</td> ";
-  echo "<td style='text-align:center;'>".$data['ontime_approved']."</td> ";
+  echo "<td style='text-align:center;'>".$approved."</td> ";
+  echo "<td style='text-align:center;' $ontimeapproved>"."<p style='display: inline-flex;color:white;background-color:$warna2 ;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_approved']."</td> ";
+  echo "<td style='text-align:center;' $ontimeapproved1>"."<p style='display: inline-flex;color:white;background-color: $warnasign1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign2 . abs($difference_approved). $sign3."</td>";
+  echo "<td style='text-align:center;'>".$data['sid']."</td> ";
+  echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
   echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
   echo "<td style='width:5%'>".$data['note']."</td>";
-  echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico' width='25px'>".$data['nama']."</p>"."</td>";	
+  echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico'height='25px' width='25px'>".$data['nama']."</p>"."</td>";	
   if ($level=="super user"){
 	echo "<td style='text-align:center;'>";	
 	echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";	

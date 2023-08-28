@@ -1,6 +1,6 @@
 <?php
 	header("Content-type: application/vnd-ms-excel");
-	header("Content-Disposition: attachment; filename=PE_Analisa_All.xls");
+	header("Content-Disposition: attachment; filename=GBA_All.xls");
 //inisialisasi session
 session_start();
 //mengecek username pada session
@@ -19,19 +19,26 @@ if( !isset($_SESSION['name']) ){
 		<thead>
 			<tr>
 				<th style="text-align:center;" class="disableSort">No.</th>
-				<th class="disableSort">ID Issue</th>
-				<th class="disableSort">Week</th>
-				<th class="disableSort">Type</th>
-				<th class="disableSort">Model</th>
-				<th class="disableSort">Place</th>
-				<th class="disableSort">Issue</th>
-				<th class="disableSort">Cause</th>
-				<th class="disableSort">Sample Recieve</th>
-				<th class="disableSort">Sample Analyzed</th>
-				<th style="text-align:center;" class="disableSort">Report</th>	
+				<th  class="disableSort">ID Issue</th>
+				<th hidden class="disableSort">Week</th>
+				<th style="text-align:center;" class="disableSort">Type Submission</th>
+				<th class="disableSort">AP VERSION</th>
+				<th class="disableSort">CP VERSION</th>
+				<th class="disableSort">CSC VERSION</th>
+				<th style="text-align:center;" class="disableSort">Previous ID</th>
+				<th class="disableSort">Progress</th>
 				<th class="disableSort">Status</th>
+				<th class="disableSort">Request Date</th>
+				<th class="disableSort">Submission Date</th>	
+				<th class="disableSort">Ontime Submission</th>
+				<th class="disableSort">Deadline</th>		
+				<th class="disableSort">Approved Date</th>		
+				<th class="disableSort">Ontime approved</th>			
+				<th style="text-align:center;"  class="disableSort">Submission ID</th>
+				<th style="text-align:center;"  class="disableSort">Reviewer</th>
+				<th class="disableSort disableFilterBy">GBA Letter</th>					
+				<th class="disableSort">Note</th>
 				<th style="text-align:center;" class="disableSort">PIC</th>
-				<th style="text-align:center;" class="disableSort">Member</th>
                 <th class="disableSort">Timestamp_IP HOST</th>
 			</tr>
 		</thead>	
@@ -52,17 +59,23 @@ if($data['report'] > 1){
 else{
 	$filename='';
 }
-if(strpos($kodewarna,'Progress')!==false){
-	$warna='#fff200';
+if(strpos($kodewarna,'PROGRESS')!==false){
+	$warna='#F0B86E';
   }
-  elseif(strpos($kodewarna,'Issue Baru')!==false){
-	$warna='#ff6928';
+  elseif(strpos($kodewarna,'Task Baru !')!==false){
+	$warna='#F6635C';
   }
-  elseif(strpos($kodewarna,'Finish')!==false){
-	$warna='#7fb765';
+  elseif(strpos($kodewarna,'APPROVED')!==false){
+	$warna='#428bca';
+  }
+  elseif(strpos($kodewarna,'SUBMITED')!==false){
+	$warna='#3e8339';
+  }
+  elseif(strpos($kodewarna,'PASSED')!==false){
+	$warna='#3e8339';
   }
   else{
-	$warna='white';
+	$warna= 'red';
   }		
 		echo "<tbody>";
 		echo "<tr>";
@@ -70,16 +83,23 @@ if(strpos($kodewarna,'Progress')!==false){
 		echo "<td style='text-align:center;'>".$data['issue_id']."</td>";
 		echo "<td style='text-align:center;'>".$data['week']."</td>";
 		echo "<td style='text-align:center;'>".$data['type']."</td>";
-		echo "<td style='text-align:center;'>".$data['model']."</td>";
-		echo "<td style='text-align:center;'>".$data['place']."</td>";
-		echo "<td style='text-align:center;'>".$data['issue']."</td>";
-		echo "<td style='text-align:center;'>".$data['cause']."</td>";
-		echo "<td style='text-align:center;'>".$data['sample_recieve']."</td>";
-		echo "<td style='text-align:center;'>".$data['sample_analyze']."</td> ";
-		echo "<td>".$data['report']."</td>";
+		echo "<td style='text-align:center;'>".$data['ap']."</td>";
+		echo "<td style='text-align:center;'>".$data['cp']."</td>";
+		echo "<td style='text-align:center;'>".$data['csc']."</td>";
+		echo "<td style='text-align:center;'>"."'".$data['baseid']."</td>";
 		echo "<td style='text-align:center;' bgcolor=$warna>".$data['status']."</td>";
+		echo "<td style='text-align:center;'>".$data['progress']."</td> ";
+		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
+		echo "<td style='text-align:center;'>".$data['submission_date']."</td> ";
+		echo "<td style='text-align:center;'>".$data['ontime_submission']."</td> ";
+		echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
+		echo "<td style='text-align:center;'>".$data['approved_date']."</td> ";
+		echo "<td style='text-align:center;'>".$data['ontime_approved']."</td> ";
+		echo "<td style='text-align:center;'>"."'".$data['sid']."</td> ";
+		echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
+		echo "<td>".$data['report']."</td>";
+		echo "<td style='text-align:center;'>".$data['note']."</td>";
 		echo "<td style='text-align:center;'>".$data['nama']."</td>";
-		echo "<td style='text-align:center;'>".$data['part']."</td>";
         echo "<td style='text-align:center;'>".$data['timestamp']."</td>";
 		echo "</tr>";		
 		echo "</tbody>";
