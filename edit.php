@@ -477,7 +477,7 @@ input.largerCheckbox {
                             <label for="sts">STS</label>
                         </td></a>
                         </tr>
-                        <input type="checkbox" class="largerCheckbox"id="checked" name="progress[]" value="inprogress" hidden checked >
+                        <input type="checkbox" id="checked" name="progress[]" value="inprogress" hidden checked >
                             </table>
 				
                             <div class="row">
@@ -566,8 +566,8 @@ function changeFunc($status) {
 
 if ($status == 'APPROVED' ) {
   document.getElementById ("approved_date").value = "<?php echo date("Y-m-d");?>";
-  var date3 = new Date( document.getElementById("request_date").value);
-  var date4 = new Date(document.getElementById("deadline").value);
+  var date3 = new Date( document.getElementById("deadline").value);
+  var date4 = new Date(document.getElementById("approved_date").value);
   var Difference_In_Time = date4.getTime() - date3.getTime();
   var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
   var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -594,7 +594,7 @@ else if ($status == 'SUBMITED' ) {
     checkboxes[i].checked = true;
   }
     
-  if (Difference_In_Days<=1)  {
+  if (Difference_In_Days<=0)  {
        document.getElementById("ontime_submission").value = "ONTIME";
        document.getElementById("ontime_approved").value = "TBD";
       }
@@ -618,7 +618,7 @@ else if ($status == 'DROP/CANCEL' ) {
 else if ($status == 'PASSED' ) {  
     document.getElementById("ontime_submission").value = "TBD";   
     document.getElementById("ontime_approved").value = "TBD";
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var checkboxes = document.querySelectorAll('input[class="largerCheckbox"]');
   for (var i = 0; i < checkboxes.length; i++) {
     checkboxes[i].checked = false;
   }

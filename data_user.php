@@ -44,7 +44,7 @@ if( !isset($_SESSION['name']) ){
       </li>
 	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
 			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
-      <a class="btn btn-success navbar-btn" href="input.php">Tambah Data</a>
+      <a class="btn btn-success navbar-btn" href="input.php">Request Baru</a>
     </ul>
   </div>
 </nav>
@@ -152,7 +152,7 @@ body {
 		<thead>
 			<tr>
 				<th style="text-align:center;" class="disableSort">No.</th>
-				<th  class="disableSort">ID Issue</th>
+				<th hidden class="disableSort">ID Issue</th>
 				<th hidden class="disableSort">Week</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
 				<th class="disableSort">AP VERSION</th>
@@ -328,7 +328,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna2='#428bca';
   }
   elseif(strpos($kodewarna2,'DELAY')!==false){
-	$warna2='darkred';
+	$warna2='red';
   }
   else{
 	$warna2='#ff6868';
@@ -336,7 +336,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<tbody>";
   echo "<tr>";
   echo "<td style='text-align:center;'>".$nomor++."</td>";
-  echo "<td >".$data['issue_id']."</td>";
+  echo "<td hidden>".$data['issue_id']."</td>";
   echo "<td hidden>".$data['week']."</td>";
   echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
   echo "<td>".$data['ap']."</td>";
@@ -359,7 +359,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<td style='text-align:center;'>".$data['sid']."</td> ";
   echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
   echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-  echo "<td style='width:5%'>".$data['note']."</td>";
+  echo "<td>".$data['note']."</td>";
   echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico'height='25px' width='25px'>".$data['nama']."</p>"."</td>";	
   if ($level=="super user"){
 	echo "<td style='text-align:center;'>";	

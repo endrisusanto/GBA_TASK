@@ -48,6 +48,7 @@ $futureDate->modify("+" . $daysToAdd . " days");
 // Menghitung selisih tanggal
 $interval = $today->diff($futureDate);
 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,17 +59,18 @@ $interval = $today->diff($futureDate);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="icon" type="image/x-icon" href="file/pe.ico">
 <meta property="og:image" content="http://107.102.39.55/pe_analisa/file/2.jpg" />
-<meta property="og:title" content="PE QUALITY PORTAL" />
+<meta property="og:title" content="GOOGLE BUILD APPROVAL" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-		<a class="navbar-brand" href="index.php">GOOGLE BUILD APPROVAL</a>
+		<a class="navbar-brand" href="active_task.php">GOOGLE BUILD APPROVAL</a>
 		</div>
 		<ul class="nav navbar-nav navbar-right">      
 			<li class="dropdown"><a class="dropdown-toggle thick" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user"></span> Hi , <?php if( !isset($_SESSION['name']) ){    echo "Selamat Datang" ;}   else{    echo $_SESSION['name']." [".$_SESSION['level']."]" ;}    ?>
@@ -81,7 +83,7 @@ $interval = $today->diff($futureDate);
 			</li>
 			<li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
 			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
-			<a class="btn btn-success navbar-btn" href="input.php">Tambah Data</a>
+			<a class="btn btn-success navbar-btn" href="input.php">Request Baru</a>
 		</ul>
   	</div>
 </nav>
@@ -164,26 +166,34 @@ button {
 	text-align: center;
 }
 .panel-body.total {
+	padding-top:45px;
+	height: 290px;
 	background:#33b5e5;
-	font-size: 30px;
+	font-size: 125px;
 	text-align: center;
 	color: white;
 	font-weight: 1000;}
 .panel-body.baru {
+	padding-top:45px;
+	height: 290px;
 	background:#ff8a80;
-	font-size: 30px;
+	font-size: 125px;
 	text-align: center;
 	color: white;
 	font-weight: 1000;}
 .panel-body.jalan {
+	padding-top:45px;
+	height: 290px;
 	background:#ffd180;
-	font-size: 30px;
+	font-size: 125px;
 	text-align: center;
 	color: white;
 	font-weight: 1000;}
 .panel-body.finish {
+	padding-top:45px;
+	height: 290px;
 	background:#86cb4f;
-	font-size: 30px;
+	font-size: 125px;
 	text-align: center;
 	color: white;
 	font-weight: 1000;}
@@ -217,40 +227,46 @@ p {
 <div class="container-fluid">
 <div class="panel panel-default">
 	<div class="panel-body status">
-		<div class="col-sm-3" >
+		<div class="col-sm-2" >
 			<div class="panel panel-default">
 				<div class="panel-heading center"><b>TOTAL TASK</b></div>
 					<div class="panel-body total"><?php echo $total ?></div>
 			</div>
 		</div> 
-		<div class="col-sm-3" >
+		<div class="col-sm-2" >
 			<div class="panel panel-default">
 				<div class="panel-heading center"><b>TASK BARU</b></div>
 					<div class="panel-body baru"><?php echo $baru ?></div>
 			</div>
 		</div> 
-		<div class="col-sm-3" >
+		<div class="col-sm-2" >
 			<div class="panel panel-default">
 				<div class="panel-heading center"><b>PROGRESS</b></div>
 					<div class="panel-body jalan"><?php echo $progress ?></div>
 			</div>
 		</div> 
 		
-		<div class="col-sm-3" >
+		<div class="col-sm-2" >
 			<div class="panel panel-default">
 				<div class="panel-heading center"><b>FINISH</b></div>
 					<div class="panel-body finish"><?php echo $finish ?></div>
 			</div>
 		</div> 
+		<div class="col-sm-4" >
+			<div class="panel panel-default">
+				<div class="panel-heading center"><b><?php echo "TASK WEEK #".date("W");?></b></div>
+				<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+			</div>
+		</div>
 	</div> 
 </div>
 
-	<table  class="tablemanager">
+	<table  class="tablemanager" style="margin-bottom: 2px;">
 		<thead>
 			<tr>
 			<th style="text-align:center;" class="disableSort">No.</th>
-				<th class="disableSort">ID</th>
-				<th class="disableSort">Week</th>
+				<th hidden class="disableSort">ID</th>
+				<th hidden class="disableSort">Week</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
 				<th style="text-align:center;" class="disableSort">AP VERSION</th>
 				<th style="text-align:center;" class="disableSort">CP VERSION</th>
@@ -275,6 +291,21 @@ p {
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 $query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'APPROVED%' AND status NOT LIKE 'DROP/CANCEL%' ORDER BY `task`.`issue_id` DESC ");
+$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Dhanar Kurnia' AND WEEK(request_date)=WEEK(CURDATE())");
+$row = $query->fetch_array();    
+$taskDhanar[] = $row['numRecords'];
+
+$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Endri Susanto' AND WEEK(request_date)=WEEK(CURDATE())");
+$row = $query->fetch_array();    
+$taskEndri[] = $row['numRecords'];
+
+$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Lutfi Bukhori' AND WEEK(request_date)=WEEK(CURDATE())");
+$row = $query->fetch_array();    
+$taskLutfi[] = $row['numRecords'];
+
+$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Fazlur Rahman' AND WEEK(request_date)=WEEK(CURDATE())");
+$row = $query->fetch_array();    
+$taskFazlur[] = $row['numRecords'];
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarna1 = $data['ontime_submission'];
@@ -283,6 +314,8 @@ while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarnapic = $data['nama'];
 	$kodewarnatype = $data['type'];
 	$file = 'file/'.$data['report'];
+
+
 if($data['report'] > 1){
 	$filename='<span class="glyphicon glyphicon-eye-open"></span>';
 }
@@ -328,9 +361,18 @@ else{
     $date2 = new DateTime($data['deadline']);    
     $interval = $date1->diff($date2);
     $difference_approved = $interval->days;
-	$sign2 = ($date1 > $date2) ? 'delay ' : '';
-	$sign3 = ($date1 > $date2) ? ' days' : ' days left';
-	$warnasign1 = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+	if ($difference_approved != 0){
+		$sign2 = ($date1 > $date2) ? 'delay ' : '';
+		$sign3 = ($date1 > $date2) ? ' days' : ' days left';
+		$warnasign1 = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+		$beda_approved = $difference_approved;
+	}
+	else{
+		$sign2 = 'Deadline is ';
+		$sign3 = 'Today';
+		$warnasign1 = '#F6635C';
+		$beda_approved = '';}
+
 	if($data['ontime_approved'] == 'TBD'){
 		$ontimeapproved = 'hidden';
 		$ontimeapproved1= '';
@@ -400,7 +442,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna1='#428bca';
   }
   elseif(strpos($kodewarna1,'DELAY')!==false){
-	$warna1='darkred';
+	$warna1='red';
   }
   else{
 	$warna1='#ff6868';
@@ -415,19 +457,18 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   else{
 	$warna2='#ff6868';
   }
-  
 		echo "<tbody>";
 		echo "<tr>";
 		echo "<td style='text-align:center;'>".$nomor++."</td>";
-		echo "<td>".$data['issue_id']."</td>";	
-		echo "<td>".$data['week']."</td>";
+		echo "<td hidden>".$data['issue_id']."</td>";	
+		echo "<td hidden>".$data['week']."</td>";
 		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
         echo "<td style='text-align:center;font-weight: bold'>".$data['ap']."</td>";
 		echo "<td style='text-align:center;font-weight: bold'>".$data['cp']."</td>";
 		echo "<td style='text-align:center;font-weight: bold'>".$data['csc']."</td>";
 		echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
 
-		echo "<td style='width:10%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
+		echo "<td style='width:8%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
 	<div class=' w3-dark-gray progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen;'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
@@ -436,7 +477,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td style='text-align:center;' $ontimesubmited>"."<p style='display: inline-flex;color:white;background-color:$warna1 ;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
 		echo "<td style='text-align:center;' $ontimesubmited1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . abs($difference_submited). $sign1."</td>";
 		echo "<td style='text-align:center;' $ontimeapproved>"."<p style='display: inline-flex;color:white;background-color:$warna2 ;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_approved']."</td> ";
-  		echo "<td style='text-align:center;' $ontimeapproved1>"."<p style='display: inline-flex;color:white;background-color: $warnasign1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign2 . abs($difference_approved). $sign3."</td>";
+  		echo "<td style='text-align:center;' $ontimeapproved1>"."<p style='display: inline-flex;color:white;background-color: $warnasign1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign2 .$beda_approved. $sign3."</td>";
 		echo "<td style='text-align:center;'>".$data['deadline']."</td>";
 		echo "<td style='text-align:center;'>".$data['sid']."</td> ";
 		echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
@@ -460,9 +501,36 @@ if(strpos($kodewarna,'PROGRESS')!==false){
     voc_show_rows: 'Rows Per Page '
   },
 			pagination: true,
-			showrows: [15,20,50,100],
+			showrows: [10,20,50,100],
 			disableFilterBy: [1]
 		});
 		// $('.tablemanager').tablemanager();
 	</script>
+<script>
+var xValues = ["Dhanar", "Endri", "Lutfi", "Fazlur"];
+var yValues = [<?php echo json_encode($taskDhanar); ?>, <?php echo json_encode($taskEndri); ?>, <?php echo json_encode($taskLutfi); ?>, <?php echo json_encode($taskFazlur); ?>];
+var barColors = [
+  "#EA047E",
+  "#FF6D28",
+  "#FCE700",
+  "#00F5FF"
+];
+
+new Chart("myChart", {
+  type: "doughnut",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Task Ratio"
+    }
+  }
+});
+</script>
 </html>

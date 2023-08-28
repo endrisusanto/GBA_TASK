@@ -28,8 +28,14 @@ else {
 }
 
 if($ap > '0'){		
-	mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '$cp','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '','',  '$timestamp')"); 
+	if($cp > '0'){
+		mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '$cp','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '','',  '$timestamp')"); 
+		header("location:active_task.php?alert=berhasil_disimpan");
+	}
+	else{
+	mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '-','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '','',  '$timestamp')"); 
 	header("location:active_task.php?alert=berhasil_disimpan");
+	}
 }else{ 
 	header("location:input.php?alert=data_tidak_boleh_kosong");
 }

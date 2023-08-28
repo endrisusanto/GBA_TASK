@@ -41,7 +41,7 @@ if( !isset($_SESSION['name']) ){
       </li>
 	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
 			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
-      <a class="btn btn-success navbar-btn" href="input.php">Tambah Data</a>
+      <a class="btn btn-success navbar-btn" href="input.php">Request Baru</a>
     </ul>
   </div>
 </nav>
@@ -151,12 +151,13 @@ body {
 				<th style="text-align:center;" class="disableSort disableFilterBy">No.</th>
 				<th class="disableSort">PIC</th>
 				<th hidden class="disableSort">Week</th>
-				<th class="disableSort">ID</th>
+				<th hidden class="disableSort">ID</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
 				<th style="text-align:center;" class="disableSort">AP Version</th>
 				<th style="text-align:center;" class="disableSort">CP Version</th>
 				<th style="text-align:center;" class="disableSort">CSC Version</th>
 				<th style="text-align:center;" class="disableSort">Previous ID</th>
+				<th style="text-align:center;" class="disableSort">Email</th>
 				<th style="text-align:center;" class="disableSort">Progress</th>
 				<th style="text-align:center;" class="disableSort">Status</th>
 				<th style="text-align:center;" class="disableSort">Request Date</th>
@@ -214,12 +215,13 @@ elseif($type == 'REGULAR'){
 else{
 	$persentype = "1";
 }
+	$baseid =$data['baseid'];
 	$loading =$data['progress'];
     $loading1 = explode(',',$loading);
 	$totalElements = count($loading1)-'1';
 	$percentage = ($totalElements / $persentype) * 100;
 	$persen = number_format($percentage) . '%';
-	$date1 = new DateTime();;
+	$date1 = new DateTime();
     $date2 = new DateTime($data['deadline']);    
     $interval = $date1->diff($date2);
     $difference = $interval->days;
@@ -244,7 +246,7 @@ else{
 		$warnasubmission='#428bca';
 	  }
 	  elseif(strpos($kodewarnasubmission,'DELAY')!==false){
-		$warnasubmission='darkred';
+		$warnasubmission='red';
 	  }
 	  else{
 		$warnasubmission= 'red';
@@ -295,15 +297,16 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<tr>";
 		echo "<td style='text-align:center;'>".$nomor++."</td>";
 		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico'  height='25px' width='25px'>".$data['nama']."</p>"."</td>";	
-		echo "<td>".$data['issue_id']."</td>";
+		echo "<td hidden>".$data['issue_id']."</td>";
 		echo "<td hidden>".$data['week']."</td>";
 		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
 		echo "<td style='text-align:center;'>".$data['ap']."</td>";
 		echo "<td style='text-align:center;'>".$data['cp']."</td>";
 		echo "<td style='text-align:center;'>".$data['csc']."</td>";
-		echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
-
-		echo "<td style='width:10%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
+		// echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
+		echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' email='$baseid' onclick='salin(this)'>".$baseid."</button>"."</td> ";
+		echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' email='endri.s@samsung.com,fazlur.r@samsung.com,lufti.b@samsung.com,danar.kurnia@samsung.com,aulia.am@samsung.com' onclick='salin(this)'><span class='glyphicon glyphicon-envelope'></span></button>"."</td> ";
+		echo "<td style='width:6%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
 	<div class='w3-dark-grey w3-normal progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
@@ -351,5 +354,18 @@ function yesnoCheck() {
         document.getElementById('hide').style.display = 'none';
         }
     }
+</script>
+<script>
+const salin = (btn) => {
+    navigator.clipboard.writeText(btn.getAttribute('email'));
+    let tmp = btn.innerHTML;
+    btn.innerHTML = 'Tersalin';
+    btn.disabled = true;
+
+    setTimeout(() => {
+        btn.innerHTML = tmp;
+        btn.disabled = false;
+    }, 1500);
+};
 </script>
 </html>

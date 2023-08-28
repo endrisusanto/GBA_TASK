@@ -51,7 +51,7 @@ body {
             <section class="row justify-content-center">
             <section class="col-10 col-sm-10 col-md-10">			
                 <form class="form-container" action="input-aksi.php" method="post" enctype="multipart/form-data">
-                    <h4 class="text-center font-weight-bold"> TAMBAH DATA </h4>
+                    <h4 class="text-center font-weight-bold"> Request Baru </h4>
                   <br>
                     
 
