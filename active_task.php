@@ -303,9 +303,9 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td style='text-align:center;'>".$data['ap']."</td>";
 		echo "<td style='text-align:center;'>".$data['cp']."</td>";
 		echo "<td style='text-align:center;'>".$data['csc']."</td>";
-		// echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
-		echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' email='$baseid' onclick='salin(this)'>".$baseid."</button>"."</td> ";
-		echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' email='endri.s@samsung.com,fazlur.r@samsung.com,lufti.b@samsung.com,danar.kurnia@samsung.com,aulia.am@samsung.com' onclick='salin(this)'><span class='glyphicon glyphicon-envelope'></span></button>"."</td> ";
+		echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
+		// echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' onclick='copyToClipboard(baseid)'>".$baseid."</button>"."</td> ";
+		echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' onclick='copyToClipboard(email)'><span class='glyphicon glyphicon-envelope'></span></button>"."</td> ";
 		echo "<td style='width:6%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
 	<div class='w3-dark-grey w3-normal progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
@@ -329,6 +329,7 @@ echo "</tbody>";
 </table>
 
 </div>
+
 </body>
 <script type="text/javascript" src="./tableManager.js"></script>
 	<script type="text/javascript">
@@ -367,4 +368,15 @@ const salin = (btn) => {
     }, 1500);
 };
 </script>
+<script>
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+</script>
+<p hidden id='email'>endri.s@samsung.com,fazlur.r@samsung.com,lufti.b@samsung.com,danar.kurnia@samsung.com,aulia.am@samsung.com</p>
+
 </html>
