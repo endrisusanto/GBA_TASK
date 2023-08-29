@@ -38,7 +38,7 @@ header("location:active_task.php?pesan=update");
 }
 else{    
     if($typeberubah > 0){
-        mysqli_query($koneksi,"UPDATE task SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',ap='$ap',cp='$cp',csc='$csc',baseid='$baseid',sid='$sid',reviewer='$reviewer',progress='',status='Task Baru !',request_date='$request_date',submission_date='N/A',ontime_submission='N/A',deadline='$deadline',approved_date='$approved_date',ontime_approved='$ontime_approved',note='$note',timestamp='$timestamp',report=''  WHERE id='$id'");
+        mysqli_query($koneksi,"UPDATE task SET issue_id='$issue_id',nama='$nama',week='$week',type='$type',ap='$ap',cp='$cp',csc='$csc',baseid='$baseid',sid='$sid',reviewer='$reviewer',progress='',status='Task Baru !',request_date='$request_date',submission_date='TBD',ontime_submission='TBD',deadline='$deadline',approved_date='$approved_date',ontime_approved='$ontime_approved',note='$note',timestamp='$timestamp',report=''  WHERE id='$id'");
         header("location:active_task.php?pesan=update_berhasil");    
     }
     else{
