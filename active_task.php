@@ -361,7 +361,7 @@ const salin = (btn) => {
     let tmp = btn.innerHTML;
     btn.innerHTML = 'Tersalin';
     btn.disabled = true;
-
+	textArea.focus({preventScroll: true});
     setTimeout(() => {
         btn.innerHTML = tmp;
         btn.disabled = false;

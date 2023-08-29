@@ -18,7 +18,7 @@ if( isset($_POST['submit']) ){
         //cara sederhana mengamankan dari sql injection
         $email = mysqli_real_escape_string($con, $email);
          // menghilangkan backshlases
-        $password = stripslashes($_POST['password']);
+        $password = md5(stripslashes($_POST['password']));
          //cara sederhana mengamankan dari sql injection
         $password = mysqli_real_escape_string($con, $password);
         
@@ -27,7 +27,7 @@ if( isset($_POST['submit']) ){
         if(!empty(trim($email)) && !empty(trim($password))){
 
             //select data berdasarkan email dari database
-            $query      = "SELECT * FROM users WHERE email = '$email'";
+            $query      = "SELECT * FROM users WHERE email = '$email' and password = '$password'";
             $result     = mysqli_query($con, $query);
             $cek       = mysqli_num_rows($result);
 
