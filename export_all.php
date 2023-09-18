@@ -26,8 +26,8 @@ if( !isset($_SESSION['name']) ){
 				<th class="disableSort">CP VERSION</th>
 				<th class="disableSort">CSC VERSION</th>
 				<th style="text-align:center;" class="disableSort">Previous ID</th>
-				<th class="disableSort">Progress</th>
 				<th class="disableSort">Status</th>
+				<th class="disableSort">Progress</th>
 				<th class="disableSort">Request Date</th>
 				<th class="disableSort">Submission Date</th>	
 				<th class="disableSort">Ontime Submission</th>
@@ -48,16 +48,19 @@ if( !isset($_SESSION['name']) ){
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 $pengguna = $_SESSION['name'];
-$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1 ORDER BY `task`.`id` ASC ");
+$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1 ORDER BY `task`.`id` DESC ");
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$kodewarna = $data['status'];
-	$file = 'file/'.$data['report'];
+	
 if($data['report'] > 1){
 	$filename='<span class="glyphicon glyphicon-eye-open"></span>';
+	$file = 'http://107.102.39.55/tkdn/file/'.$data['report'];
 }
 else{
 	$filename='';
+	$file='';
+
 }
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
@@ -97,7 +100,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td style='text-align:center;'>".$data['ontime_approved']."</td> ";
 		echo "<td style='text-align:center;'>"."'".$data['sid']."</td> ";
 		echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
-		echo "<td>".$data['report']."</td>";
+		echo "<td>".$file."</td>";
 		echo "<td style='text-align:center;'>".$data['note']."</td>";
 		echo "<td style='text-align:center;'>".$data['nama']."</td>";
         echo "<td style='text-align:center;'>".$data['timestamp']."</td>";

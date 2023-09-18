@@ -17,7 +17,7 @@ if( isset($_POST['submit']) ){
         $email = stripslashes($_POST['email']);
         //cara sederhana mengamankan dari sql injection
         $email = mysqli_real_escape_string($con, $email);
-         // menghilangkan backshlases
+         // menghilangkan backshlases         
         $password = md5(stripslashes($_POST['password']));
          //cara sederhana mengamankan dari sql injection
         $password = mysqli_real_escape_string($con, $password);
@@ -27,17 +27,19 @@ if( isset($_POST['submit']) ){
         if(!empty(trim($email)) && !empty(trim($password))){
 
             //select data berdasarkan email dari database
-            $query      = "SELECT * FROM users WHERE email = '$email' and password = '$password'";
+            $query      = "select * from users where email='$email' and password='$password'";
             $result     = mysqli_query($con, $query);
             $cek       = mysqli_num_rows($result);
 
             // if ($rows != 0) {
-            //     // $hash   = mysqli_fetch_assoc($result)['password'];
-            //     // if(password_verify($password, $hash)){
+            //     $hash   = mysqli_fetch_assoc($result)['password'];
+            //     if(password_verify($password, $hash)){
             //         if(password_verify($password)){
             //         $_SESSION['email'] = $email;
             //         header('Location: index.php');
             //     }
+            // }}
+            
  
             if($cek > 0){
 
@@ -53,10 +55,10 @@ if( isset($_POST['submit']) ){
                 $_SESSION['name'] = $name;
                 $_SESSION['username'] = $username;
                 $_SESSION['status'] = "login";
-                header('Location: index.php');              
+                header('Location: active_task.php');              
             //jika gagal maka akan menampilkan pesan error
             } else {
-                $error =  'Login Gagal !!';
+                $error =  'Login Gagal ya!!';
             }
             
         }else {
@@ -108,7 +110,7 @@ body {
                     </div>
                     <div class="form-group">
                         <label for="InputPassword">Password</label>
-                        <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="InputPassword" name="password" placeholder="********">
                         <?php if($validate != '') {?>
                             <p class="text-danger"><?= $validate; ?></p>
                         <?php }?>

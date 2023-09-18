@@ -36,6 +36,23 @@ body {
 	padding-bottom: 2vh;
 
 }
+input.largerCheckbox {
+    width: 20px;
+    height: 20px;
+    }
+a {
+            padding-top:0px;
+            padding-right:10px;
+            padding-left:5px;
+            border-radius: 10px;
+            margin:auto;
+            background-color: #767676;
+            font-weight:normal;
+            box-shadow: 5px 10px #ddd;
+		    }
+button{
+                box-shadow: 5px 10px #ddd;   
+            }
 .custom {
     width: 100% !important;
 	align:center;
@@ -43,6 +60,16 @@ body {
 .form-control {
 	padding: 3px;
 }
+.banner {
+      position: relative;
+      height: 210px;
+      background-image: url("../gba_task/images/banner.jpg");      
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+     
+      }
 </style>
 <body> 
 
@@ -52,11 +79,13 @@ body {
             <section class="col-10 col-sm-10 col-md-10">			
                 <form class="form-container" action="input-aksi.php" method="post" enctype="multipart/form-data">
                     <h4 class="text-center font-weight-bold"> Request Baru </h4>
+                    <div class="banner"></div>
                   <br>
                     
 
 					<div class="row">
                     
+                            
 					<div class="col-sm-3">
 					<label for="name">AP VERSION</label>
                         <input type="text" class="form-control" id="ap" name="ap" placeholder="AP Version">
@@ -73,9 +102,9 @@ body {
 					<label for="name">TYPE SUBMISSION</label>
 						<div>
 							<select  class="form-control" name="type">
-								<option>NORMAL EXCEPTION</option>
+								<option>NORMAL</option>
 								<option>SMR</option>
-								<option>SIMPLE EXCEPTION</option>
+								<option>SIMPLE</option>
 								<option>REGULAR</option>
 							</select>
 						</div>					
@@ -117,7 +146,7 @@ body {
                         
                     </div>
                     <div class="col-sm-3">
-					<label for="name">PREVIOUS ID</label>
+					<label for="name">PREVIOUS ID / BASE SUBMISSION ID</label>
                         <input type="text" class="form-control" id="baseid" name="baseid" placeholder="PREVIOUS ID" value="TBD" >
                     </div>
 					<div class="col-sm-3">
@@ -125,7 +154,12 @@ body {
                         <input hidden type="text" class="form-control" id="status" name="status" value="Task Baru !" readonly >
                     </div>
 					</div><br>
-					
+                    <div class="row">
+					<div class="col-sm-12">
+                        <label for="name">NOTE</label>
+                        <textarea name="note" rows="4" cols="100%"></textarea>
+                    </div>
+                    </div>
 					<div class="row">
 					<div class="col-sm-6">
                     <button type="submit" name="submit" value="Simpan" class="btn btn-success custom">Submit</button> 

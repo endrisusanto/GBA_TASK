@@ -34,13 +34,13 @@ if( !isset($_SESSION['name']) ){
         <ul class="dropdown-menu">
 			<li><a href="index.php"><span class="glyphicon glyphicon-home"></span> HOMEPAGE</a></li>
 			<li><a href="data_user.php"><span class="glyphicon glyphicon-list-alt"></span> SUMMARY TASK</a></li>
-            <li><a href="password.php"><span class="glyphicon glyphicon-cog"></span> SETTING</a></li>
+            <li><a href="password.php"><span class="glyphicon glyphicon-cog"></span> CHANGE PASSWORD</a></li>
 			<li><a href="#"><span class="glyphicon glyphicon-signal"></span> <?php echo "YOUR IP : " . $_SERVER['REMOTE_ADDR'];?> </a></li>
       		<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
         </ul>
       </li>
-	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
-			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
+	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EXPORT</a></li>
+			<li><a href="../tkdn/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
       <a class="btn btn-success navbar-btn" href="input.php">Request Baru</a>
     </ul>
   </div>
@@ -150,24 +150,24 @@ body {
 			<tr>
 				<th style="text-align:center;" class="disableSort disableFilterBy">No.</th>
 				<th class="disableSort">PIC</th>
-				<th hidden class="disableSort">Week</th>
-				<th hidden class="disableSort">ID</th>
+				<th hidden class="disableSort disableFilterBy">Week</th>
+				<th hidden class="disableSort disableFilterBy">ID</th>
 				<th style="text-align:center;" class="disableSort">Type Submission</th>
 				<th style="text-align:center;" class="disableSort">AP Version</th>
 				<th style="text-align:center;" class="disableSort">CP Version</th>
 				<th style="text-align:center;" class="disableSort">CSC Version</th>
 				<th style="text-align:center;" class="disableSort">Previous ID</th>
-				<th style="text-align:center;" class="disableSort">Email</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">Email</th>
 				<th style="text-align:center;" class="disableSort">Progress</th>
 				<th style="text-align:center;" class="disableSort">Status</th>
 				<th style="text-align:center;" class="disableSort">Request Date</th>
 				<th style="text-align:center;" class="disableSort">Submission Date</th>	
-				<th style="text-align:center;" class="disableSort">Ontime Submission</th>
 				<th style="text-align:center;" class="disableSort">Deadline</th>		
+				<th style="text-align:center;" class="disableSort">Ontime Submission</th>
 				<th style="text-align:center;"  class="disableSort">Submission ID</th>
 				<th style="text-align:center;"  class="disableSort">Reviewer</th>
-				<th class="disableSort disableFilterBy">GBA Letter</th>	
-				<th class="disableSort disableFilterBy">NOTE</th>	
+				<th hidden class="disableSort disableFilterBy">GBA Letter</th>	
+				<th class="disableSort">NOTE</th>	
 				<th style="text-align:center;" class="disableSort disableFilterBy">Action</th>	
 
 			</tr>
@@ -179,11 +179,11 @@ body {
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 if ($_SESSION['level']=='super user'){
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'APPROVED%' AND status NOT LIKE 'DROP/CANCEL%' ORDER BY `task`.`issue_id` DESC ");
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE status NOT LIKE 'APPROVED%' AND status NOT LIKE 'DROP/CANCEL%' AND status NOT LIKE 'FAILED%' AND status NOT LIKE 'DROP%' AND status NOT LIKE 'CANCEL%' ORDER BY `task`.`id` DESC ");
 }
 else{
 	$pengguna = $_SESSION['name'];
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna' AND status NOT LIKE 'APPROVED%' AND status NOT LIKE 'DROP/CANCEL%' ORDER BY `task`.`issue_id` DESC ");	
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna' AND status NOT LIKE 'APPROVED%' AND status NOT LIKE 'FAILED%' AND status NOT LIKE 'DROP/CANCEL%' AND status NOT LIKE 'DROP%' AND status NOT LIKE 'CANCEL%' ORDER BY `task`.`id` DESC ");	
 }
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
@@ -206,7 +206,7 @@ $type = $data['type'];
 if($type == 'SMR'){
 	$persentype = '4';
 }
-elseif($type == 'NORMAL EXCEPTION'){
+elseif($type == 'NORMAL'){
 	$persentype = '9';
 }
 elseif($type == 'REGULAR'){
@@ -221,26 +221,50 @@ else{
 	$totalElements = count($loading1)-'1';
 	$percentage = ($totalElements / $persentype) * 100;
 	$persen = number_format($percentage) . '%';
-	$date1 = new DateTime();
+	// $date1 = new DateTime();
+    // $date2 = new DateTime($data['deadline']);    
+    // $interval = $date1->diff($date2);
+    // $difference = $interval->days;
+	// $sign = ($date1 > $date2) ? 'delay ' : '';
+	// $sign1 = ($date1 > $date2) ? ' days' : ' days left';
+	// $warnasign = ($date1 > $date2) ? '#ff6928' : '#7fb765';
+	// if($data['submission_date'] == 0){
+	// 	$submited = 'TBD';
+	// }
+	// else {
+	// 	$submited = $data['submission_date'];
+	// }
+	// if($data['ontime_submission'] == 'TBD'){
+	// 	$ontime = 'hidden';
+	// 	$ontime1= '';
+	// }
+	// else {
+	// 	$ontime = '';
+	// 	$ontime1 = 'hidden';
+	// }
+	$date1 = new DateTime();;
     $date2 = new DateTime($data['deadline']);    
     $interval = $date1->diff($date2);
-    $difference = $interval->days;
-	$sign = ($date1 > $date2) ? 'delay ' : '';
-	$sign1 = ($date1 > $date2) ? ' days' : ' days left';
-	$warnasign = ($date1 > $date2) ? '#ff6928' : '#7fb765';
-	if($data['submission_date'] == 0){
-		$submited = 'TBD';
+	$difference_submited = $interval->days;
+	if ($difference_submited != 0){
+		$sign = ($date1 > $date2) ? 'delay ' : '';
+		$sign1 = ($date1 > $date2) ? ' days' : ' days left';
+		$warnasign = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+		$beda_submited = $difference_submited;
 	}
 	else {
-		$submited = $data['submission_date'];
-	}
+		$sign = 'Deadline ';
+		$sign1 = 'Today';
+		$warnasign = '#F6635C';
+		$beda_submited = '';}
+
 	if($data['ontime_submission'] == 'TBD'){
-		$ontime = 'hidden';
-		$ontime1= '';
+		$ontimesubmited = 'hidden';
+		$ontimesubmited1= '';
 	}
 	else {
-		$ontime = '';
-		$ontime1 = 'hidden';
+		$ontimesubmited = '';
+		$ontimesubmited1 = 'hidden';
 	}
 	if(strpos($kodewarnasubmission,'ONTIME')!==false){
 		$warnasubmission='#428bca';
@@ -251,6 +275,18 @@ else{
 	  else{
 		$warnasubmission= 'red';
 	  }	
+	if($data['submission_date'] == 0){
+		$submited = 'TBD';
+	}
+	else {
+		$submited = $data['submission_date'];
+	}
+	if($data['approved_date'] == 0){
+		$approved = 'TBD';
+	}
+	else {
+		$approved = $data['submission_date'];
+	}
 if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#F0B86E';
   }
@@ -261,33 +297,36 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna='#428bca';
   }
   elseif(strpos($kodewarna,'SUBMITED')!==false){
-	$warna='#3e8339';
+	$warna='#7fb765';
   }
   elseif(strpos($kodewarna,'PASSED')!==false){
 	$warna='#3e8339';
   }
+  elseif(strpos($kodewarna,'FEEDBACK SENT')!==false){
+	$warna='#7fb765';
+  }
   else{
 	$warna= 'red';
   }	
-  if(strpos($kodewarnapic,'Endri Susanto')!==false){
-	$warnapic='#7A86B6';
+  if(strpos($kodewarnapic,'ENDRI')!==false){
+	$warnapic='#ff8a80';
   }
-  elseif(strpos($kodewarnapic,'Lutfi Bukhori')!==false){
-	$warnapic='#647E68';
+  elseif(strpos($kodewarnapic,'LUTFI')!==false){
+	$warnapic='#86cb4f';
   }
-  elseif(strpos($kodewarnapic,'Fazlur Rahman')!==false){
-	$warnapic='#C996CC';
+  elseif(strpos($kodewarnapic,'FAZLUR')!==false){
+	$warnapic='#33b5e5';
   }
   else{
-	$warnapic='#D27685';
+	$warnapic='#ffd180';
   }	
   if(strpos($kodewarnatype,'SMR')!==false){
 	$warnatype='#ff6928';
   }
-  elseif(strpos($kodewarnatype,'NORMAL EXCEPTION')!==false){
+  elseif(strpos($kodewarnatype,'NORMAL')!==false){
 	$warnatype='#7fb765';
   }
-  elseif(strpos($kodewarnatype,'SIMPLE EXCEPTION')!==false){
+  elseif(strpos($kodewarnatype,'SIMPLE')!==false){
 	$warnatype='#428bca';
   }
   else{
@@ -296,29 +335,29 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<tbody>";
 		echo "<tr>";
 		echo "<td style='text-align:center;'>".$nomor++."</td>";
-		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico'  height='25px' width='25px'>".$data['nama']."</p>"."</td>";	
+		echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img style='border-radius: 40%;' float:left height='30px' width='25px' src='../tkdn/images/".$data['nama'].".jpg'>".$data['nama']."</p>"."</td>";	
 		echo "<td hidden>".$data['issue_id']."</td>";
 		echo "<td hidden>".$data['week']."</td>";
 		echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
-		echo "<td style='text-align:center;'>".$data['ap']."</td>";
+		echo "<td style='text-align:center;'>"."<p style='font-weight: 400'>".$data['ap']."</p>"."</td>";
 		echo "<td style='text-align:center;'>".$data['cp']."</td>";
 		echo "<td style='text-align:center;'>".$data['csc']."</td>";
-		echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
+		echo "<td>"."<p style='text-align:center;font-weight: 600'>".$data['baseid']."</p>"."</td>";
 		// echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' onclick='copyToClipboard(baseid)'>".$baseid."</button>"."</td> ";
 		echo "<td style='text-align:center;'>"."<button style='background: none;border: none;text-decoration: none;' type='button' onclick='copyToClipboard(email)'><span class='glyphicon glyphicon-envelope'></span></button>"."</td> ";
-		echo "<td style='width:6%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
-	<div class='w3-dark-grey w3-normal progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+		echo "<td style='width:9%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
+	<div class='w3-green w3-tiny progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 	 </div>"."</td>";
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
-		echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
-		echo "<td style='text-align:center;'>".$submited."</td> ";
-		echo "<td style='text-align:center;' $ontime>"."<p style='display: inline-flex;color:white;background-color:$warnasubmission;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
-		echo "<td style='text-align:center;' $ontime1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . abs($difference). $sign1."</td>";
-		echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
+		echo "<td style='text-align:center;width:4%'>".$data['request_date']."</td> ";
+		echo "<td style='text-align:center;width:4%'>".$submited."</td> ";
+		echo "<td style='text-align:center;width:4%'>".$data['deadline']."</td> ";
+		echo "<td style='text-align:center;' $ontimesubmited>"."<p style='display: inline-flex;color:white;background-color:$warnasubmission;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
+		echo "<td style='text-align:center;' $ontimesubmited1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign .$beda_submited. $sign1."</td>";
 		echo "<td style='text-align:center;'>".$data['sid']."</td> ";
-		echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
-		echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-        echo "<td>".$data['note']."</td>";
+		echo "<td style='text-align:right;'>".$data['reviewer']."</td> ";
+		echo "<td hidden style='text-align:center;'><a href='$file'>".$filename."</a></td>";
+        echo "<td style='width:7%'>".$data['note']."</td>";
 		echo "<td style='text-align:center;'>";	
 		echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";			
         echo "</td>";        			
@@ -329,7 +368,6 @@ echo "</tbody>";
 </table>
 
 </div>
-
 </body>
 <script type="text/javascript" src="./tableManager.js"></script>
 	<script type="text/javascript">
@@ -362,6 +400,7 @@ const salin = (btn) => {
     let tmp = btn.innerHTML;
     btn.innerHTML = 'Tersalin';
     btn.disabled = true;
+
     setTimeout(() => {
         btn.innerHTML = tmp;
         btn.disabled = false;
@@ -378,5 +417,4 @@ function copyToClipboard(element) {
 }
 </script>
 <p hidden id='email'>endri.s@samsung.com,fazlur.r@samsung.com,lufti.b@samsung.com,danar.kurnia@samsung.com,aulia.am@samsung.com</p>
-
 </html>

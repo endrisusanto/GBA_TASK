@@ -79,7 +79,7 @@ input.largerCheckbox {
             button{
                 box-shadow: 5px 10px #ddd;   
             }
-    .glow {
+    /* .glow {
 		animation: glow 1s ease-in-out infinite alternate;
 		}
 
@@ -95,7 +95,7 @@ input.largerCheckbox {
 		0 0 20px red,
 		0 0 30px red;
 		}
-		}
+		} */
         .banner {
       position: relative;
       height: 210px;
@@ -145,19 +145,19 @@ input.largerCheckbox {
                         
                     <div class="col-sm-2">
 					<label for="name">AP VERSION</label>
-                        <input type="text" class="form-control" id="ap" name="ap" value="<?php echo $data['ap'] ?>">
+                        <input readonly type="text" class="form-control" id="ap" name="ap" value="<?php echo $data['ap'] ?>">
                     </div>  
                     <div class="col-sm-2">
 					<label for="name">CP VERSION</label>
-                        <input type="text" class="form-control" id="cp" name="cp" value="<?php echo $data['cp'] ?>">
+                        <input readonly  type="text" class="form-control" id="cp" name="cp" value="<?php echo $data['cp'] ?>">
                     </div>
                     <div class="col-sm-2">
 					<label for="name">CSC VERSION</label>
-                        <input type="text" class="form-control" id="csc" name="csc" value="<?php echo $data['csc'] ?>">
+                        <input readonly  type="text" class="form-control" id="csc" name="csc" value="<?php echo $data['csc'] ?>">
                     </div> 
                     <div class="col-sm-2">
                         <label for="name">PIC</label>
-                        <select  id="hide"  class="form-control" name="nama" id="resizing_select">
+                        <select  disabled   id="hide"  class="form-control" name="nama" id="resizing_select">
                         <optgroup label="Current Data">
                             <option value="<?php echo $data['nama'] ?>"><?php echo $data['nama'] ?></option>
                         </optgroup>
@@ -177,7 +177,7 @@ input.largerCheckbox {
                     </div>           
 					<div class="col-sm-2">
                         <label for="name">TYPE</label>
-						<select class="form-control" name="type" id="optionsDropdown" onchange="showNumber()" onchange="showConfirm()>
+						<select  disabled class="form-control" name="type" id="optionsDropdown" onchange="showNumber()" onchange="showConfirm()>
                         <optgroup label="Current Data" >
 								<option value="<?php echo $data['type'] ?>"><?php echo $data['type'] ?></option>
                         </optgroup>
@@ -201,7 +201,7 @@ input.largerCheckbox {
                      
                     <div class="col-sm-2">
 					<label for="status">STATUS</label>
-							<select class="form-control glow" name="status" id="status" onchange="changeFunc(value)">
+							<select disabled class="form-control glow" name="status" id="status" onchange="changeFunc(value)">
                             <optgroup label="Current Data">
 								<option value="<?php echo $data['status'] ?>"><?php echo $data['status'] ?></option>
                                 </optgroup>
@@ -221,11 +221,11 @@ input.largerCheckbox {
                     <div class="row">  					
                     <div class="col-sm-2">
                         <label for="name">REQUEST DATE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="request_date" name="request_date" value="<?php echo $data['request_date'] ?>">
+                        <input readonly  onkeydown="return false" type="date" class="form-control" id="request_date" name="request_date" value="<?php echo $data['request_date'] ?>">
                     </div> 
                     <div class="col-sm-2">
                         <label for="name">SUBMISSION DATE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>" >
+                        <input readonly  onkeydown="return false" type="date" class="form-control" id="submission_date" name="submission_date" value="<?php echo $data['submission_date'] ?>" >
                     </div>       
                     <div class="col-sm-2">
                         <label for="name">ONTIME SUBMITED</label>
@@ -233,11 +233,11 @@ input.largerCheckbox {
                     </div>  
                     <div class="col-sm-2">
                         <label for="name">DEADLINE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="deadline" name="deadline" value="<?php echo $data['deadline'] ?>">
+                        <input readonly  onkeydown="return false" type="date" class="form-control" id="deadline" name="deadline" value="<?php echo $data['deadline'] ?>">
                     </div>
                     <div class="col-sm-2">
                         <label for="name">APPROVED DATE</label>
-                        <input onkeydown="return false" type="date" class="form-control" id="approved_date" name="approved_date" value="<?php echo $data['approved_date'] ?>">
+                        <input readonly  onkeydown="return false" type="date" class="form-control" id="approved_date" name="approved_date" value="<?php echo $data['approved_date'] ?>">
                     </div>  
                     <div class="col-sm-2">
                         <label for="name">ONTIME APPROVED</label>
@@ -247,15 +247,15 @@ input.largerCheckbox {
                     <div class="row">  					
                     <div class="col-sm-4">
                         <label for="name">PREVIOUS ID / BASE SUBMISSION ID</label>
-                        <input type="text" class="form-control" id="baseid" name="baseid" value="<?php echo $data['baseid'] ?>">
+                        <input readonly  type="text" class="form-control" id="baseid" name="baseid" value="<?php echo $data['baseid'] ?>">
                     </div>
                     <div class="col-sm-4">
                         <label for="name">SUBMISSION ID (XID)</label>
-                        <input type="text" class="form-control" id="sid" name="sid" value="<?php echo $data['sid'] ?>">
+                        <input readonly  type="text" class="form-control" id="sid" name="sid" value="<?php echo $data['sid'] ?>">
                     </div>
                     <div class="col-sm-4">
                         <label for="name">REVIEWER</label>
-                        <input type="text" class="form-control" id="reviewer" name="reviewer" value="<?php echo $data['reviewer'] ?>">
+                        <input readonly  type="text" class="form-control" id="reviewer" name="reviewer" value="<?php echo $data['reviewer'] ?>">
                     </div>
                     </div>
                     
@@ -292,7 +292,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a  id="ctsbox">
-                            <input type="checkbox" class="largerCheckbox" id="cts" name="progress[]" value="cts"
+                            <input disabled  type="checkbox" class="largerCheckbox" id="cts" name="progress[]" value="cts"
                             <?php
                                 if (in_array('cts',$progress1))
                                 {
@@ -309,7 +309,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a  id="gtsbox">
-                            <input type="checkbox" class="largerCheckbox" id="gts" name="progress[]" value="gts" 
+                            <input  disabled type="checkbox" class="largerCheckbox" id="gts" name="progress[]" value="gts" 
                             <?php
                                 if (in_array('gts',$progress1))
                                 {
@@ -325,7 +325,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="stsbox">
-                            <input type="checkbox"class="largerCheckbox"id="sts" name="progress[]" value="sts"
+                            <input disabled  type="checkbox"class="largerCheckbox"id="sts" name="progress[]" value="sts"
                             <?php
                                 if (in_array('sts',$progress1))
                                 {
@@ -344,7 +344,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="ctsvbox">
-                            <input type="checkbox" class="largerCheckbox"id="ctsv" name="progress[]" value="ctsv"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="ctsv" name="progress[]" value="ctsv"
                             <?php
                                 if (in_array('ctsv',$progress1))
                                 {
@@ -366,7 +366,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="gtsvbox" >
-                            <input type="checkbox" class="largerCheckbox"id="gtsv" name="progress[]" value="gtsv"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="gtsv" name="progress[]" value="gtsv"
                             <?php
                                 if (in_array('gtsv',$progress1))
                                 {
@@ -388,7 +388,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="bvtbox">
-                            <input type="checkbox" class="largerCheckbox"id="bvt" name="progress[]" value="bvt"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="bvt" name="progress[]" value="bvt"
                             <?php
                                 if (in_array('bvt',$progress1))
                                 {
@@ -410,7 +410,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="getpropbox">
-                            <input type="checkbox" class="largerCheckbox"id="getprop" name="progress[]" value="getprop"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="getprop" name="progress[]" value="getprop"
                             <?php
                                 if (in_array('getprop',$progress1))
                                 {
@@ -432,7 +432,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="sdtbox" >
-                            <input type="checkbox" class="largerCheckbox"id="sdt" name="progress[]" value="sdt"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="sdt" name="progress[]" value="sdt"
                             <?php
                                 if (in_array('sdt',$progress1))
                                 {
@@ -454,7 +454,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="svtbox">
-                            <input type="checkbox" class="largerCheckbox"id="svt" name="progress[]" value="svt"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="svt" name="progress[]" value="svt"
                             <?php
                                 if (in_array('svt',$progress1))
                                 {
@@ -476,7 +476,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="bootimagebox">
-                            <input type="checkbox"  class="largerCheckbox"id="bootimage" name="progress[]" value="bootimage"
+                            <input  disabled type="checkbox"  class="largerCheckbox"id="bootimage" name="progress[]" value="bootimage"
                             <?php
                                 if (in_array('bootimage',$progress1))
                                 {
@@ -498,7 +498,7 @@ input.largerCheckbox {
                                 {
                                 echo "hidden";
                                 }?>><a id="scatbox">
-                            <input type="checkbox" class="largerCheckbox"id="scat" name="progress[]" value="scat"
+                            <input disabled  type="checkbox" class="largerCheckbox"id="scat" name="progress[]" value="scat"
                             <?php
                                 if (in_array('scat',$progress1))
                                 {
@@ -515,13 +515,13 @@ input.largerCheckbox {
                         </td></a>
                         
                         </tr>
-                        <input type="checkbox" id="checked" name="progress[]" value="inprogress" hidden checked >
+                        <input  disabled type="checkbox" id="checked" name="progress[]" value="inprogress" hidden checked >
                             </table>
 				
                             <div class="row">
 					<div class="col-sm-12">
                         <label for="note">NOTE</label><br>
-						<textarea name="note" rows="4" cols="100%"><?php echo $data['note'] ?></textarea>
+						<textarea readonly  name="note" rows="4" cols="100%"><?php echo $data['note'] ?></textarea>
                     </div>					
 					
 					</div>
@@ -532,15 +532,12 @@ input.largerCheckbox {
                     <div class="col-sm-12">
                         <label for="name">REPORT</label><br>
                         <?php echo $data['report'] ?>
-                        <input type="file" class="form-control" id="report" name="report" value="<?php echo $data['report'] ?>">
+                        <input disabled  type="file" class="form-control" id="report" name="report" value="<?php echo $data['report'] ?>">
                     </div>
 					</div>
                     <div class="row">
-					<div class="col-sm-6">
-                    <button type="submit" name="submit" value="Simpan" class="btn btn-primary custom">Update</button> 
-					</div>
-					<div class="col-sm-6">
-					<a href="active_task.php"  class="btn btn-danger custom">Cancel</a>
+					<div class="col-sm-12">
+					<a href="data_user.php"  class="btn btn-danger custom">BACK</a>
 					</div>
 					</div>
 

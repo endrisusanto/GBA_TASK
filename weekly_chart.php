@@ -14,27 +14,27 @@ $label = ["WEEK 1","WEEK 2","WEEK 3","WEEK 4","WEEK 5","WEEK 6","WEEK 7","WEEK 8
 
 for($minggu = 1;$minggu < 54;$minggu++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Endri Susanto' AND type='NORMAL EXCEPTION'  AND WEEK(request_date)='$minggu'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='ENDRI' AND type='NORMAL'  AND WEEK(request_date)='$minggu'");
     $row = $query->fetch_array();    
 	$jumlah_produk[] = $row['numRecords'];
 }
 
 for($minggu1 = 1;$minggu1 < 54;$minggu1++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Dhanar Kurnia' AND type='NORMAL EXCEPTION' AND WEEK(request_date)='$minggu1'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='DHANAR' AND type='NORMAL' AND WEEK(request_date)='$minggu1'");
     $row = $query->fetch_array();    
 	$jumlah_produk1[] = $row['numRecords'];
 }
 
 for($minggu2 = 1;$minggu2 < 54;$minggu2++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Lutfi Bukhori' AND type='NORMAL EXCEPTION' AND WEEK(request_date)='$minggu2'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='LUTFI' AND type='NORMAL' AND WEEK(request_date)='$minggu2'");
     $row = $query->fetch_array();    
 	$jumlah_produk2[] = $row['numRecords'];
 }
 for($minggu8 = 1;$minggu8 < 54;$minggu8++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Fazlur Rahman' AND type='NORMAL EXCEPTION' AND WEEK(request_date)='$minggu8'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='FAZLUR' AND type='NORMAL' AND WEEK(request_date)='$minggu8'");
     $row = $query->fetch_array();    
 	$jumlah_produk7[] = $row['numRecords'];
 }
@@ -52,28 +52,28 @@ for($minggu3 = 1;$minggu3 < 54;$minggu3++)
 
 for($minggu4 = 1;$minggu4 < 54;$minggu4++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Endri Susanto' AND type='SMR'  AND WEEK(request_date)='$minggu4'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='ENDRI' AND type='SMR'  AND WEEK(request_date)='$minggu4'");
     $row = $query->fetch_array();    
 	$jumlah_produk4[] = $row['numRecords'];
 }
 
 for($minggu5 = 1;$minggu5 < 54;$minggu5++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Dhanar Kurnia' AND type='SMR' AND WEEK(request_date)='$minggu5'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='DHANAR' AND type='SMR' AND WEEK(request_date)='$minggu5'");
     $row = $query->fetch_array();    
 	$jumlah_produk5[] = $row['numRecords'];
 }
 
 for($minggu6 = 1;$minggu6 < 54;$minggu6++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Lutfi Bukhori' AND type='SMR' AND WEEK(request_date)='$minggu6'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='LUTFI' AND type='SMR' AND WEEK(request_date)='$minggu6'");
     $row = $query->fetch_array();    
 	$jumlah_produk6[] = $row['numRecords'];
 }
 
 for($minggu7 = 1;$minggu7 < 54;$minggu7++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Fazlur Rahman' AND type='SMR' AND WEEK(request_date)='$minggu7'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='FAZLUR' AND type='SMR' AND WEEK(request_date)='$minggu7'");
     $row = $query->fetch_array();    
 	$jumlah_produk8[] = $row['numRecords'];
 }
@@ -85,28 +85,28 @@ for($minggu7 = 1;$minggu7 < 54;$minggu7++)
 
 for($hehe1 = 1;$hehe1 < 54;$hehe1++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Endri Susanto' AND type='SIMPLE EXCEPTION'  AND WEEK(request_date)='$hehe1'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='ENDRI' AND type='SIMPLE'  AND WEEK(request_date)='$hehe1'");
     $row = $query->fetch_array();    
 	$jumlah_produk10[] = $row['numRecords'];
 }
 
 for($hehe2 = 1;$hehe2 < 54;$hehe2++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Dhanar Kurnia' AND type='SIMPLE EXCEPTION' AND WEEK(request_date)='$hehe2'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='DHANAR' AND type='SIMPLE' AND WEEK(request_date)='$hehe2'");
     $row = $query->fetch_array();    
 	$jumlah_produk11[] = $row['numRecords'];
 }
 
 for($hehe3 = 1;$hehe3 < 54;$hehe3++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Lutfi Bukhori' AND type='SIMPLE EXCEPTION' AND WEEK(request_date)='$hehe3'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='LUTFI' AND type='SIMPLE' AND WEEK(request_date)='$hehe3'");
     $row = $query->fetch_array();    
 	$jumlah_produk12[] = $row['numRecords'];
 }
 
 for($hehe4 = 1;$hehe4 < 54;$hehe4++)
 {
-	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='Fazlur Rahman' AND type='SIMPLE EXCEPTION' AND WEEK(request_date)='$hehe4'");
+	$query = mysqli_query($koneksi,"SELECT count(*) as numRecords, WEEK(`request_date`) as weekNum FROM task WHERE nama='FAZLUR' AND type='SIMPLE' AND WEEK(request_date)='$hehe4'");
     $row = $query->fetch_array();    
 	$jumlah_produk13[] = $row['numRecords'];
 }

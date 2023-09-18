@@ -42,8 +42,8 @@ if( !isset($_SESSION['name']) ){
       		<li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> LOGOUT</a></li>
         </ul>
       </li>
-	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EKSPORT EXCEL</a></li>
-			<li><a href="../gba_task/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
+	  <li><a href="export_all.php"><span class="glyphicon glyphicon-link"></span>  EXPORT</a></li>
+			<li><a href="../tkdn/weekly_chart.php"><span class="glyphicon glyphicon-signal"></span> WEEKLY CHART</a></li>
       <a class="btn btn-success navbar-btn" href="input.php">Request Baru</a>
     </ul>
   </div>
@@ -82,7 +82,7 @@ body {
 			padding-bottom: 3px;
 			padding-left: 4px;
 			padding-right: 4px;		
-			font-size: 12px;		}
+			font-size: 11px;		}
 		button {
 			cursor: pointer;
 		}
@@ -151,31 +151,34 @@ body {
 	<table  class="tablemanager">
 		<thead>
 			<tr>
-				<th style="text-align:center;" class="disableSort">No.</th>
-				<th hidden class="disableSort">ID Issue</th>
-				<th hidden class="disableSort">Week</th>
-				<th style="text-align:center;" class="disableSort">Type Submission</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">No.</th>
+				<th style="text-align:center;" class="disableSort">PIC</th>
 				<th class="disableSort">AP VERSION</th>
 				<th class="disableSort">CP VERSION</th>
-				<th class="disableSort">CSC VERSION</th>
+				<th class="disableSort">CSC VERSION</th>				
+				<th hidden class="disableSort disableFilterBy">ID Issue</th>
+				<th hidden class="disableSort">Week</th>
 				<th style="text-align:center;" class="disableSort">Previous ID</th>
-				<th class="disableSort">Progress</th>
-				<th class="disableSort">Status</th>
-				<th class="disableSort">Request Date</th>
-				<th class="disableSort">Submission Date</th>	
-				<th class="disableSort">Ontime Submission</th>
-				<th class="disableSort">Deadline</th>		
-				<th class="disableSort">Approved Date</th>		
-				<th class="disableSort">Ontime approved</th>			
-				<th style="text-align:center;"  class="disableSort">Submission ID</th>
-				<th style="text-align:center;"  class="disableSort">Reviewer</th>
-				<th class="disableSort disableFilterBy">GBA Letter</th>					
+				<th style="text-align:center;" class="disableSort">Progress</th>
+				<th style="text-align:center;" class="disableSort">Type Submission</th>
+				<th style="text-align:center;" class="disableSort">Status</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">Request Date</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">Submission Date</th>	
+				<th style="text-align:center;" class="disableSort disableFilterBy">Deadline</th>		
+				<th style="text-align:center;" class="disableSort disableFilterBy">Approved Date</th>	
+				<th style="text-align:center;" class="disableSort disableFilterBy">Ontime Submission</th>	
+				<th style="text-align:center;" class="disableSort disableFilterBy">Ontime approved</th>			
+				<th style="text-align:center;" class="disableSort">Submission ID</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">Reviewer</th>
+				<th style="text-align:center;" class="disableSort disableFilterBy">GBA Letter</th>					
 				<th class="disableSort">Note</th>
-				<th style="text-align:center;" class="disableSort">PIC</th>
 				<?php
 					$level = $_SESSION['level'];
 					if ($level=="super user"){
-					echo "<th style='text-align:center;' class='disableSort'>"."ACTION"."</th>";
+					echo "<th style='text-align:center;' class='disableSort disableFilterBy'>"."ACTION"."</th>";
+					}
+					else{
+					echo "<th style='text-align:center;' class='disableSort disableFilterBy'>"."ACTION"."</th>";	
 					}
 					// <th style="text-align:center;" class="disableSort">ACTION</th>
 				?>
@@ -188,12 +191,16 @@ body {
 
 $koneksi = mysqli_connect("localhost","root","","gba_task");
 if ($_SESSION['level']=='super user'){
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1 ORDER BY `task`.`issue_id` DESC ");
+	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1 ORDER BY `task`.`id` DESC ");
 }
 else{
-	$pengguna = $_SESSION['name'];
-	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna'  ORDER BY `task`.`issue_id` DESC ");	
-}
+		$pengguna = $_SESSION['name'];
+		$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE 1  ORDER BY `task`.`id` DESC ");	
+	}
+// else{
+// 	$pengguna = $_SESSION['name'];
+// 	$query_mysql = mysqli_query($koneksi,"SELECT * FROM `task` WHERE nama='$pengguna'  ORDER BY `task`.`id` DESC ");	
+// }
 $nomor = 1;
 while($data = mysqli_fetch_array($query_mysql)){
 	$level = $_SESSION['level'];
@@ -213,7 +220,7 @@ $type = $data['type'];
 if($type == 'SMR'){
 	$persentype = '4';
 }
-elseif($type == 'NORMAL EXCEPTION'){
+elseif($type == 'NORMAL'){
 	$persentype = '9';
 }
 elseif($type == 'REGULAR'){
@@ -231,10 +238,19 @@ else{
 	$date1 = new DateTime();;
     $date2 = new DateTime($data['deadline']);    
     $interval = $date1->diff($date2);
-    $difference_submited = $interval->days;
-	$sign = ($date1 > $date2) ? 'delay ' : '';
-	$sign1 = ($date1 > $date2) ? ' days' : ' days left';
-	$warnasign = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+	$difference_submited = $interval->days;
+	if ($difference_submited != 0){
+		$sign = ($date1 > $date2) ? 'delay ' : '';
+		$sign1 = ($date1 > $date2) ? ' days' : ' days left';
+		$warnasign = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+		$beda_submited = $difference_submited;
+	}
+	else{
+		$sign = 'Deadline ';
+		$sign1 = 'Today';
+		$warnasign = '#F6635C';
+		$beda_submited = '';}
+
 	if($data['ontime_submission'] == 'TBD'){
 		$ontimesubmited = 'hidden';
 		$ontimesubmited1= '';
@@ -248,9 +264,18 @@ else{
     $date2 = new DateTime($data['deadline']);    
     $interval = $date1->diff($date2);
     $difference_approved = $interval->days;
-	$sign2 = ($date1 > $date2) ? 'delay ' : '';
-	$sign3 = ($date1 > $date2) ? ' days' : ' days left';
-	$warnasign1 = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+	if ($difference_approved != 0){
+		$sign2 = ($date1 > $date2) ? 'delay ' : '';
+		$sign3 = ($date1 > $date2) ? ' days' : ' days left';
+		$warnasign1 = ($date1 > $date2) ? '#F6635C' : '#7fb765';
+		$beda_approved = $difference_approved;
+	}
+	else{
+		$sign2 = 'Deadline ';
+		$sign3 = 'Today';
+		$warnasign1 = '#F6635C';
+		$beda_approved = '';}
+
 	if($data['ontime_approved'] == 'TBD'){
 		$ontimeapproved = 'hidden';
 		$ontimeapproved1= '';
@@ -272,43 +297,46 @@ else{
 	else {
 		$approved = $data['submission_date'];
 	}
-if(strpos($kodewarna,'PROGRESS')!==false){
-	$warna='#F0B86E';
+	if(strpos($kodewarna,'PROGRESS')!==false){
+		$warna='#F0B86E';
+	  }
+	  elseif(strpos($kodewarna,'Task Baru !')!==false){
+		$warna='#F6635C';
+	  }
+	  elseif(strpos($kodewarna,'APPROVED')!==false){
+		$warna='#428bca';
+	  }
+	  elseif(strpos($kodewarna,'SUBMITED')!==false){
+		$warna='#7fb765';
+	  }
+	  elseif(strpos($kodewarna,'PASSED')!==false){
+		$warna='#3e8339';
+	  }
+	  elseif(strpos($kodewarna,'FEEDBACK SENT')!==false){
+		$warna='#7fb765';
+	  }
+	  else{
+		$warna= 'red';
+	  }
+  if(strpos($kodewarnapic,'ENDRI')!==false){
+	$warnapic='#ff8a80';
   }
-  elseif(strpos($kodewarna,'Task Baru !')!==false){
-	$warna='#F6635C';
+  elseif(strpos($kodewarnapic,'LUTFI')!==false){
+	$warnapic='#86cb4f';
   }
-  elseif(strpos($kodewarna,'APPROVED')!==false){
-	$warna='#428bca';
-  }
-  elseif(strpos($kodewarna,'SUBMITED')!==false){
-	$warna='#3e8339';
-  }
-  elseif(strpos($kodewarna,'PASSED')!==false){
-	$warna='#3e8339';
+  elseif(strpos($kodewarnapic,'FAZLUR')!==false){
+	$warnapic='#33b5e5';
   }
   else{
-	$warna= 'red';
-  }	
-  if(strpos($kodewarnapic,'Endri Susanto')!==false){
-	$warnapic='#7A86B6';
-  }
-  elseif(strpos($kodewarnapic,'Lutfi Bukhori')!==false){
-	$warnapic='#647E68';
-  }
-  elseif(strpos($kodewarnapic,'Fazlur Rahman')!==false){
-	$warnapic='#C996CC';
-  }
-  else{
-	$warnapic='#D27685';
+	$warnapic='#ffd180';
   }	
   if(strpos($kodewarnatype,'SMR')!==false){
 	$warnatype='#ff6928';
   }
-  elseif(strpos($kodewarnatype,'NORMAL EXCEPTION')!==false){
+  elseif(strpos($kodewarnatype,'NORMAL')!==false){
 	$warnatype='#7fb765';
   }
-  elseif(strpos($kodewarnatype,'SIMPLE EXCEPTION')!==false){
+  elseif(strpos($kodewarnatype,'SIMPLE')!==false){
 	$warnatype='#428bca';
   }
   else{
@@ -318,7 +346,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 	$warna1='#428bca';
   }
   elseif(strpos($kodewarna1,'DELAY')!==false){
-	$warna1='darkred';
+	$warna1='red';
   }
   else{
 	$warna1='#ff6868';
@@ -336,37 +364,53 @@ if(strpos($kodewarna,'PROGRESS')!==false){
   echo "<tbody>";
   echo "<tr>";
   echo "<td style='text-align:center;'>".$nomor++."</td>";
-  echo "<td hidden>".$data['issue_id']."</td>";
-  echo "<td hidden>".$data['week']."</td>";
-  echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
+  echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img style='border-radius: 40%;' float:left height='30px' width='25px' src='../tkdn/images/".$data['nama'].".jpg'>".$data['nama']."</p>"."</td>";	
   echo "<td>".$data['ap']."</td>";
   echo "<td>".$data['cp']."</td>";
-  echo "<td>".$data['csc']."</td>";
+  echo "<td>".$data['csc']."</td>";  
+  echo "<td hidden>".$data['issue_id']."</td>";
+  echo "<td hidden>".$data['week']."</td>";
+  
   echo "<td>"."<p style='text-align:center;font-weight: bold'>".$data['baseid']."</p>"."</td>";
-
-  echo "<td style='width:5%'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
-<div class='w3-dark-grey progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
+  echo "<td style='width:6%;'>"."<div class='w3-round-xlarge w3-container' style='padding-left: 0px;padding-right: 0px;background-color:#b5b5b5'>
+<div class='w3-dark-blue progress-bar-striped w3-round-xlarge active progress-bar' style='width:$persen'>". $persen."</div>
 </div>"."</td>";
+  echo "<td style='text-align:center;'> "."<p style='display: inline-flex;color:white;background-color: $warnatype;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['type']."</td>";
+
+
   echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
-  echo "<td style='text-align:center;'>".$data['request_date']."</td> ";
-  echo "<td style='text-align:center;'>".$submited."</td> ";
+  echo "<td style='text-align:center;width:4%'>".$data['request_date']."</td> ";
+  echo "<td style='text-align:center;width:4%'>".$submited."</td> ";
+  echo "<td style='text-align:center;width:4%'>".$data['deadline']."</td> ";
+  echo "<td style='text-align:center;width:4%'>".$approved."</td> ";
   echo "<td style='text-align:center;' $ontimesubmited>"."<p style='display: inline-flex;color:white;background-color:$warna1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
-  echo "<td style='text-align:center;' $ontimesubmited1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . abs($difference_submited). $sign1."</td>";
-  echo "<td style='text-align:center;'>".$data['deadline']."</td> ";
-  echo "<td style='text-align:center;'>".$approved."</td> ";
+  echo "<td style='text-align:center;' $ontimesubmited1>"."<p style='display: inline-flex;color:white;background-color: $warnasign;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign . $beda_submited. $sign1."</td>";
+  
   echo "<td style='text-align:center;' $ontimeapproved>"."<p style='display: inline-flex;color:white;background-color:$warna2 ;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_approved']."</td> ";
-  echo "<td style='text-align:center;' $ontimeapproved1>"."<p style='display: inline-flex;color:white;background-color: $warnasign1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign2 . abs($difference_approved). $sign3."</td>";
+  echo "<td style='text-align:center;' $ontimeapproved1>"."<p style='display: inline-flex;color:white;background-color: $warnasign1;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$sign2 . $beda_approved. $sign3."</td>";
   echo "<td style='text-align:center;'>".$data['sid']."</td> ";
-  echo "<td style='text-align:center;'>".$data['reviewer']."</td> ";
+  echo "<td style='text-align:right;'>".$data['reviewer']."</td> ";
   echo "<td style='text-align:center;'><a href='$file'>".$filename."</a></td>";
-  echo "<td>".$data['note']."</td>";
-  echo "<td>"."<p style='display: inline-flex;color:white;background-color: $warnapic;border-radius: 10px;padding-right:15px;text-align:left;font-weight: bold'><img src='../GBA_TASK/file/pe.ico'height='25px' width='25px'>".$data['nama']."</p>"."</td>";	
+  echo "<td style='width:6%'>".$data['note']."</td>";
   if ($level=="super user"){
+	
 	echo "<td style='text-align:center;'>";	
-	echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";	
-	echo "<a onClick=\"return confirm('Are you sure you want to delete?')\" class='btn btn-danger' href='hapus.php?id=$data[id]'>Delete</a>";
+	echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'><span class='glyphicon glyphicon-edit'></span></a> ";	
+	echo "<a onClick=\"return confirm('Are you sure you want to delete?')\" class='btn btn-danger' href='hapus.php?id=$data[id]'><span class='glyphicon glyphicon-trash'></span></a>";
 	echo "</td>";
-}			
+}	
+else{
+	if($pengguna == $data['nama']){
+	echo "<td style='text-align:center;'>";	
+	echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'><span class='glyphicon glyphicon-edit'></span></a> ";	
+	echo "</td>";
+}
+else{
+	echo "<td style='text-align:center;'>";	
+	echo "<a class='btn btn-warning' href='view.php?id=$data[id]'><span class='glyphicon glyphicon-edit'></span></a> ";	
+	echo "</td>";
+}
+}		
   echo "</td>";        			
 echo "</tr>";
 echo "</tbody>";
@@ -388,7 +432,7 @@ echo "</tbody>";
   },
 			pagination: true,
 			showrows: [20,50,100],
-			disableFilterBy: [1]
+			disableFilterBy: [0]
 		});
 		// $('.tablemanager').tablemanager();
 </script>
