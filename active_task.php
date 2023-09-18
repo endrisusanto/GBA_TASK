@@ -19,7 +19,6 @@ if( !isset($_SESSION['name']) ){
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/x-icon" href="file/pe.ico">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
@@ -161,6 +160,7 @@ body {
 				<th style="text-align:center;" class="disableSort">Progress</th>
 				<th style="text-align:center;" class="disableSort">Status</th>
 				<th style="text-align:center;" class="disableSort">Request Date</th>
+				<th style="text-align:center;" class="disableSort">Accept Task</th>
 				<th style="text-align:center;" class="disableSort">Submission Date</th>	
 				<th style="text-align:center;" class="disableSort">Deadline</th>		
 				<th style="text-align:center;" class="disableSort">Ontime Submission</th>
@@ -200,7 +200,17 @@ else{
     $filename='';
 }
 
-
+$terima = $data['accept_date'];
+if($terima == 'TBD'){
+	$submit = 'Accept';
+	$submit1 = 'danger';
+	$submit2 =  "onclick='tombol()'" ;
+}
+else{
+	$submit = 'Update';
+	$submit1 = 'warning';
+	$submit2 =  '' ;
+}
 
 $type = $data['type'];
 if($type == 'SMR'){
@@ -350,6 +360,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 	 </div>"."</td>";
 		echo "<td style='text-align:center;'>"."<p style='display: inline-flex;color:white;background-color: $warna;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight: bold'>".$data['status']."</td>";
 		echo "<td style='text-align:center;width:4%'>".$data['request_date']."</td> ";
+		echo "<td style='text-align:center;width:4%'>".$data['accept_date']."</td> ";
 		echo "<td style='text-align:center;width:4%'>".$submited."</td> ";
 		echo "<td style='text-align:center;width:4%'>".$data['deadline']."</td> ";
 		echo "<td style='text-align:center;' $ontimesubmited>"."<p style='display: inline-flex;color:white;background-color:$warnasubmission;border-radius: 10px;padding-left:15px;padding-right:15px;text-align:center;font-weight:bold'>".$data['ontime_submission']."</td> ";
@@ -359,7 +370,7 @@ if(strpos($kodewarna,'PROGRESS')!==false){
 		echo "<td hidden style='text-align:center;'><a href='$file'>".$filename."</a></td>";
         echo "<td style='width:7%'>".$data['note']."</td>";
 		echo "<td style='text-align:center;'>";	
-		echo "<a class='btn btn-warning' href='edit.php?id=$data[id]'>Update</a> ";			
+		echo "<a class='btn btn-$submit1' $submit2 href='edit.php?id=$data[id]'>".$submit."</a> ";			
         echo "</td>";        			
 echo "</tr>";
 echo "</tbody>";
@@ -416,5 +427,11 @@ function copyToClipboard(element) {
   $temp.remove();
 }
 </script>
+<script>
+function tombol() {
+  alert ("YAKIN MAU ACCEPT KERJAANNYA SEKARANG ?");
+}
+</script>
+
 <p hidden id='email'>endri.s@samsung.com,fazlur.r@samsung.com,lufti.b@samsung.com,danar.kurnia@samsung.com,aulia.am@samsung.com</p>
 </html>

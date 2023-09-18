@@ -525,9 +525,12 @@ input.largerCheckbox {
                     </div>					
 					
 					</div>
-    <input type="text" name="berubah" id="numberInput" hidden >
+    <input type="text" name="berubah" id="numberInput"  >
                     
-					
+                    <div class="col-sm-2">
+                        <label for="name">ACCEPT DATE</label>
+                        <input onkeydown="return true" type="text" class="form-control" id="accept_date" name="accept_date" value="<?php echo $data['accept_date'] ?>" >
+                    </div> 
 					<div class="row">
                     <div class="col-sm-12">
                         <label for="name">REPORT</label><br>

@@ -30,11 +30,11 @@ else {
 
 if($ap > '0'){		
 	if($cp > '0'){
-		mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '$cp','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '$note','',  '$timestamp')"); 
+		mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '$cp','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '$note','',  '$timestamp')"); 
 		header("location:active_task.php?alert=berhasil_disimpan");
 	}
 	else{
-	mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '-','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '$note','',  '$timestamp')"); 
+	mysqli_query($koneksi,"INSERT INTO task VALUES('', '$issue_id', '$nama', '$week', '$type', '$ap',  '-','$csc', '$baseid', '', '', '','$status', '$request_date', 'TBD', 'TBD', 'TBD', '$deadline', 'TBD', 'TBD', '$note','',  '$timestamp')"); 
 	header("location:active_task.php?alert=berhasil_disimpan");
 	}
 }else{ 
